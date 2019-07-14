@@ -1,0 +1,97 @@
+
+#library for PROSAIL and also Spectral Angle Mapper
+
+library(hsdar)
+
+#library for optimization procedure - you still should read what this actually does lol
+library(SoilHyP)
+
+#library that has some extra random generation tools
+library(MCMCglmm)
+
+
+#first step, creating a function to minimize
+#we minimize the Spectral angle mapper - meaning, the difference between two generated spectra from PROSAIL model
+
+
+#this function of SAM shouls compare agasint a given SPECTRAL LIBRARY
+sam.fun.spclib <- function(list.params,target.spectra=NULL){
+  
+  #this creates the set of data that we want to minimize to - prosail should receive it as a data.frame
+  Cab_init <- list.params[1]
+  Cw_init  <- list.params[2]
+  LAI_init <- list.params[3]
+  init.param <- data.frame(Cab=Cab_init,
+                           Cw=Cw_init,
+                           LAI=LAI_init)
+  
+  #this fetches new prosail parameters.. if you want to minimize towards an observation, then this, should be the observation
+  
+  if (is.null(target.spectra)==T){
+    #print("Warning: its minimizing to the default PROSAIL parameters") #uncomment if you want to get a spammy console
+    
+    my.spectra <- PROSAIL(parameterList = init.param)
+    #prosail default parameters 
+    def.prosail <- PROSAIL() 
+    
+    #spectral angle mapper is used here
+    spec.dist <- sam(my.spectra,def.prosail)
+    fin.val <- spec.dist[1]
+  }
+
+  if (is.null(target.spectra)==F) {
+    
+    #print("Attempting to find the vegetation traits") #uncomment if you want to get a spammy console
+    #print(prosail.param)
+    
+    my.spectra <- PROSAIL(parameterList = init.param)
+    
+    #spectral angle mapper is used here
+    spec.dist <- sam(my.spectra,target.spectra)
+    fin.val <- spec.dist[1]
+
+  }
+  
+  
+  return(fin.val)
+}
+
+#now we set up the upper and lower limits (important! to ensure convergence)
+lower_lim=c(30,0.005,0.5)
+upper_lim=c(60,0.03,4)
+
+#first we create our initial set of parameters, this could be anything random, hopefully within the limits
+init.par <- c(Cab=rnorm(1,mean=40,sd=15),
+              Cw=rnorm(1,mean=0.02,sd=0.005),
+              LAI=rtnorm(1,mean=1,sd=3,lower=0,upper=6)) #these are generated from random samples
+
+init.par <- c(40,0.02,2) #same as before just simpler.. and not random
+
+#minimizes to default prosail (notice im varying only 3 params) (Cab = 40,Cw = 0.01,LAI = 1)
+c1 <- SCEoptim(FUN = sam.fun.spclib,
+               par = init.par,
+               #method="L-BFGS-B",
+               lower=lower_lim,
+               upper=upper_lim)
+c1$par
+sam.fun.spclib ()
+
+#minimizes to a target 1 (Cab = 50 - all else default)
+init.prosail <- PROSAIL(Cab = 50)
+c2 <- SCEoptim(FUN = sam.fun.spclib,
+               par = init.par,
+               #method="L-BFGS-B",
+               lower=lower_lim,
+               upper=upper_lim,
+               target.spectra=init.prosail)
+c2$par
+
+#minimizes to target 2 (Cab = 50, Cw=0.02, LAI =3)
+init.prosail <- PROSAIL(Cab=50,Cw=0.02,LAI=3)
+c3 <- SCEoptim(FUN = sam.fun.spclib,
+               par = init.par,
+               #method="L-BFGS-B",
+               lower=lower_lim,
+               upper=upper_lim,
+               target.spectra=init.prosail)
+c3$par
