@@ -1,0 +1,72 @@
+#library for PROSAIL and also Spectral Angle Mapper
+
+library(hsdar)
+
+#library for optimization procedure - you still should read what this actually does lol
+#library(SoilHyP)
+
+#library that has some extra random generation tools
+library(MCMCglmm)
+
+#Latin hypercube comes from here
+library(FME)
+
+#the single target classifier
+library(randomForest)
+
+#investigate
+
+
+#lets generate a space of biophysical parameters and their spectral response with prosail
+prosail.runs <- 1000
+
+param.maxmin <- matrix(c(20,60,
+                         0.01,0.03,
+                         0,6),
+                       nrow=3,ncol = 2,byrow = T)
+
+LHS <- Latinhyper(param.maxmin,prosail.runs)
+#using the latin hypercube approach for sample generation
+param.list <- data.frame(Cab=LHS[,1],
+                         Cw=LHS[,2],
+                         LAI=LHS[,3])
+
+#we convert it to a spectral object
+my.spclib.plist <- PROSAIL(parameterList = param.list)
+my.spectr.plist <- spectra(my.spclib.plist)
+
+#lets make 3 DF, one for each parameter
+df.Cab <- data.frame(Cab=param.list[,1],my.spectr.plist)
+df.Cw  <- data.frame(Cw=param.list[,2],my.spectr.plist)
+df.LAI <- data.frame(LAI=param.list[,3],my.spectr.plist)
+
+#single output model
+rf.Cab <- randomForest(Cab~.,data=df.Cab)
+rf.Cw <- randomForest(Cw~.,data=df.Cw)
+rf.LAI <- randomForest(LAI~.,data=df.LAI)
+
+
+#Lets see how it fits another random sampple
+library(MCMCglmm)
+prosail.runs <- 30
+#these have not been bounded to the same bounds as the model and that is intentional to force errors
+df.param.list <- data.frame(Cab=rtnorm(prosail.runs,mean=40,sd=15,lower=20,upper=100),
+                            Cw=rtnorm(prosail.runs,mean=0.02,sd=0.005,lower=0,upper=0.05),
+                            LAI=rtnorm(prosail.runs,mean=3,sd=2,lower=0,upper=6))
+
+
+
+#lets create a DF to receive the results
+out.df <- df.param.list
+out.df$Cab_rf <- predict(rf.Cab,newdata=data.frame(spectra(PROSAIL(parameterList = df.param.list))))
+out.df$Cw_rf <- predict(rf.Cw,newdata=data.frame(spectra(PROSAIL(parameterList = df.param.list))))
+out.df$LAI_rf <- predict(rf.LAI,newdata=data.frame(spectra(PROSAIL(parameterList = df.param.list))))
+
+par(mfrow=c(2,3))
+plot(out.df$Cab,out.df$Cab_rf,main="Cab Single Target RF model",ylab="Predicted",xlab="PROSAIL")
+plot(out.df$Cw,out.df$Cw_rf,main="Cw Single Target RF model",ylab="Predicted",xlab="PROSAIL")
+plot(out.df$LAI,out.df$LAI_rf,main="LAI Single Target RF model",ylab="Predicted",xlab="PROSAIL")
+
+plot(abs(out.df$Cab-out.df$Cab_rf),main="dCab Single Target RF model",ylab="Abs difference")
+plot(abs(out.df$Cw-out.df$Cw_rf),main="dCw Single Target RF model",ylab="Abs difference")
+plot(abs(out.df$LAI-out.df$LAI_rf),main="dLAI Single Target RF model",ylab="Abs difference")
