@@ -19,8 +19,7 @@ library(randomForest)
 
 #investigate
 library(randomForestSRC)
-mtcars.mreg <- rfsrc(Multivar(mpg, cyl) ~., data = mtcars,
-                     block.size=1, importance = TRUE)
+
 
 #lets generate a space of biophysical parameters and their spectral response with prosail
 prosail.runs <- 1000
@@ -52,30 +51,42 @@ mRF01 <- rfsrc(Multivar(Cab,Cw,LAI)~.,data=full.df,block.size = 1)
 
 
 #these have not been bounded to the same bounds as the model and that is intentional to force errors
-prosail.runs.test <- 30
-df.param.list.test <- data.frame(Cab=rtnorm(prosail.runs.test,mean=40,sd=15,lower=20,upper=100),
-                            Cw=rtnorm(prosail.runs.test,mean=0.02,sd=0.005,lower=0,upper=0.05),
+prosail.runs.test <- 5000
+df.param.list.test <- data.frame(Cab=rtnorm(prosail.runs.test,mean=40,sd=15,lower=20,upper=60),
+                            Cw=rtnorm(prosail.runs.test,mean=0.02,sd=0.009,lower=0,upper=0.03),
                             LAI=rtnorm(prosail.runs.test,mean=3,sd=2,lower=0,upper=6))
 
 df.param.list.spectra <- spectra(PROSAIL(parameterList = df.param.list.test))
 
+names(full.df)
+names(test.df)
+
 #lets create a test.df
 test.df <- cbind(df.param.list.test,df.param.list.spectra)
-names(test.df)[1:5]
+#head(df.param.list.spectra)
+#names(test.df)[1:5]
 
 #lets create a DF to receive the results
-out.mRF01 <- predict(mRF01 ,newdata=test.df) #this is a special object
+#out.mRF01 <- predict(mRF01,newdata=test.df[,4:ncol(test.df)]) #this is a special object
+out.mRF01 <- predict(mRF01,newdata=test.df)
+
+out.mRF01.predict <- get.mv.predicted(out.mRF01)
 
 out.df <- df.param.list.test
-out.df$Cab_mRF <- out.mRF01$yvar[,1]
-out.df$Cw_mRF <- out.mRF01$yvar[,2]
-out.df$LAI_mRF <- out.mRF01$yvar[,3]
+out.df$Cab_mRF <- out.mRF01.predict[,1]
+out.df$Cw_mRF <- out.mRF01.predict[,2]
+out.df$LAI_mRF <- out.mRF01.predict[,3]
 
 par(mfrow=c(2,3))
 plot(out.df$Cab,out.df$Cab_mRF,main="Cab multi target RF model",ylab="Predicted",xlab="PROSAIL")
 plot(out.df$Cw,out.df$Cw_mRF,main="Cw multi target RF model",ylab="Predicted",xlab="PROSAIL")
 plot(out.df$LAI,out.df$LAI_mRF,main="LAI multi target RF model",ylab="Predicted",xlab="PROSAIL")
 
-plot(abs(out.df$Cab-out.df$Cab_mRF),main="dCab multi target RF model",ylab="Abs difference")
-plot(abs(out.df$Cw-out.df$Cw_mRF),main="dCw multi target RF model",ylab="Abs difference")
-plot(abs(out.df$LAI-out.df$LAI_mRF),main="dLAI multi target RF model",ylab="Abs difference")
+plot(out.df$Cab-out.df$Cab_mRF,main="dCab multi target RF model",ylab="difference")
+plot(out.df$Cw-out.df$Cw_mRF,main="dCw multi target RF model",ylab="difference")
+plot(out.df$LAI-out.df$LAI_mRF,main="dLAI multi target RF model",ylab="difference")
+
+
+summary(lm(out.df$Cab~out.df$Cab_mRF))
+summary(lm(out.df$Cw~out.df$Cw_mRF))
+summary(lm(out.df$LAI~out.df$LAI_mRF))
