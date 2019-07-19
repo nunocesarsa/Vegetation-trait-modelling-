@@ -113,7 +113,7 @@ c3$par
 
 #lets make an iterative example of the minimization - might take some time
 #first creating a set of input parameters
-prosail.runs <- 30
+prosail.runs <- 10
 df.param.list <- data.frame(Cab=rtnorm(prosail.runs,mean=40,sd=15,lower=0,upper=100),
                             Cw=rtnorm(prosail.runs,mean=0.02,sd=0.005,lower=0,upper=0.05),
                             LAI=rtnorm(prosail.runs,mean=3,sd=2,lower=0,upper=6))
@@ -166,7 +166,6 @@ plot(out.df$Cab,out.df$Cab_pred,pch=19,xlab="Ref Cab",ylab="Pred cab",main="Cab"
 plot(out.df$Cw,out.df$Cw_pred,pch=19,xlab="Ref Cab",ylab="Pred cab",main="Cw")
 plot(out.df$LAI,out.df$LAI_pred,pch=19,xlab="Ref Cab",ylab="Pred cab",main="LAI")
 
-plot(abs(out.df$Cab-out.df$Cab_pred),pch=19,xlab="index",ylab="Abs differece",main="deltaCab")
-plot(abs(out.df$Cw-out.df$Cw_pred),pch=19,xlab="index",ylab="Abs differece",main="deltaCw")
-plot(abs(out.df$LAI-out.df$LAI_pred),pch=19,xlab="index",ylab="Abs differece",main="deltaLAI")
-
+plot((out.df$Cab-out.df$Cab_pred),pch=19,xlab="index",ylab="differece",main="deltaCab")
+plot((out.df$Cw-out.df$Cw_pred),pch=19,xlab="index",ylab="differece",main="deltaCw")
+plot((out.df$LAI-out.df$LAI_pred),pch=19,xlab="index",ylab="differece",main="deltaLAI")
