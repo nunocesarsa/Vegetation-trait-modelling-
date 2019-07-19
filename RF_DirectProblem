@@ -1,0 +1,147 @@
+#library for PROSAIL and also Spectral Angle Mapper
+library(hsdar)
+
+#library for optimization procedure - you still should read what this actually does lol
+#library(SoilHyP)
+
+#library that has some extra random generation tools
+library(MCMCglmm)
+
+#Latin hypercube comes from here
+library(FME)
+
+#for more options on generating random samples
+library(MCMCglmm)
+
+#the single target classifier
+library(randomForest)
+
+#investigate
+library(randomForestSRC)
+
+library(FactoMineR)
+library(factoextra)
+
+#first, lets generate a RF algorithm to predict spectra from traits (this as substitution from the
+#prosail generator)
+
+prosail.runs <- 1000
+param.maxmin <- matrix(c(20,60,
+                         0.01,0.03,
+                         0,6),
+                       nrow=3,ncol = 2,byrow = T)
+
+LHS <- Latinhyper(param.maxmin,prosail.runs)
+#using the latin hypercube approach for sample generation
+param.list <- data.frame(Cab=LHS[,1],
+                         Cw=LHS[,2],
+                         LAI=LHS[,3])
+
+#we convert it to a spectral object
+my.spclib.plist <- PROSAIL(parameterList = param.list)
+my.spectr.plist <- spectra(my.spclib.plist)
+
+my.spectr.plist.df <- as.data.frame(my.spectr.plist)
+my.spectr.plist.matrix <- as.matrix(my.spectr.plist)
+
+#lets make a SVD decomposition
+svd.spectra <- svd(my.spectr.plist.matrix)
+
+D <- svd.spectra$d
+U <- svd.spectra$u
+V <- svd.spectra$v
+
+#lets reconstruct the original data
+svd.spectra.reconstruct <- U %*% diag(D) %*% t(V)
+dim(svd.spectra.reconstruct)
+
+
+#shoould be super linear.
+plot(my.spectr.plist.matrix[,1],
+     svd.spectra.reconstruct[,1])
+
+#we can also simplify 
+variance.explained = prop.table(D^2)
+plot(variance.explained[1:10],ylab="Proportion explained") #first 10 elements.. #one or two decompositions will instatnly explain all variance (linearization of the spectral responses could improve here)
+
+svd.spectra.redux <- U[,1:5] %*% diag(D[1:5]) %*% t(V[,1:5])
+
+dim(svd.spectra.redux)
+dim(U[,1:5])
+dim(diag(D[1:5]))
+dim(t(V[,1:5]))
+
+# we wil have a bit more error now
+plot(my.spectr.plist.matrix[,1],
+     svd.spectra.reconstruct[,1])
+points(my.spectr.plist.matrix[,1],
+       svd.spectra.redux[,1],pch=19,col="Red")
+
+
+#lets try a PCA decomposition
+
+#running the pca
+spec.pca <- prcomp(my.spectr.plist.matrix)
+spec.means = colMeans(my.spectr.plist.matrix)
+
+nComp = 5
+spec.pred = spec.pca$x[,1:nComp] %*% t(spec.pca$rotation[,1:nComp])
+spec.pred = scale(spec.pred, center = -spec.means , scale = FALSE)
+
+dim(my.spectr.plist.matrix)
+dim(spec.pred)
+
+#works fine
+plot(my.spectr.plist.matrix[1000,],
+     spec.pred[1000,])
+
+#ok, now lets test with a random forest model
+dim(spec.pca$x[,1:nComp])
+
+
+pca.df <- cbind(param.list,spec.pca$x[,1:nComp])
+svd.df <- cbind(param.list,U[,1:5])
+
+names(pca.df)
+names(svd.df)
+
+#this one needs renaming
+names(svd.df)<- c("Cab","Cw","LAI","U1","U2","U3","U4","U5" )
+
+#have to find a better way of calling this function.. when i use a vector it fails..
+mRF_dir_pca <- rfsrc(Multivar(PC1,PC2,PC3,PC4,PC5)~.,data=pca.df,block.size = 1)
+mRF_dir_svd <- rfsrc(Multivar(U1,U2,U3,U4,U5)~.,data=svd.df,block.size = 1)
+
+
+#now we have a model but we need to generate a new target set
+#these have not been bounded to the same bounds as the model and that is intentional to force errors
+prosail.runs.test <- 100
+df.param.list.test <- data.frame(Cab=rtnorm(prosail.runs.test,mean=40,sd=15,lower=20,upper=60),
+                                 Cw=rtnorm(prosail.runs.test,mean=0.02,sd=0.009,lower=0,upper=0.03),
+                                 LAI=rtnorm(prosail.runs.test,mean=3,sd=2,lower=0,upper=6))
+
+df.param.list.test.spectra <- spectra(PROSAIL(parameterList = df.param.list.test))
+
+#create a prediction object
+pred.mRF_dir_pca <- predict(mRF_dir_pca,newdata=df.param.list.test)
+pred.mRF_dir_svd <- predict(mRF_dir_svd,newdata=df.param.list.test)
+
+#create a predicted table
+out.mRF_dir_pca <- get.mv.predicted(pred.mRF_dir_pca)
+out.mRF_dir_svd <- get.mv.predicted(pred.mRF_dir_svd )
+
+
+#each column is a predicted part of the output, we can now reconstruct the output
+spec.pred.pca <-  scale(out.mRF_dir_pca[,1:nComp] %*% t(spec.pca$rotation[,1:nComp]), 
+                        center = -spec.means ,
+                        scale = FALSE)
+spec.pred.svd <-  out.mRF_dir_svd %*% diag(D[1:5]) %*% t(V[,1:5])
+
+dim(df.param.list.test.spectra)
+plot(df.param.list.test.spectra[1,],type="l",ylab="Reflectance",xlab="Band index")
+lines(spec.pred.pca[1,],col="Red",lty=2)
+lines(spec.pred.svd[1,],col="Blue",lty=3)
+legend("topright",c("Original","mRF with PCA","mRF with SVD"),col=c(1,2,3),lty=1:3, cex=0.8)
+
+
+#Voilá!
