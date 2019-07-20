@@ -1,0 +1,165 @@
+#library for PROSAIL and also Spectral Angle Mapper
+
+library(hsdar)
+
+#library for optimization procedure - you still should read what this actually does lol
+#library(SoilHyP)
+
+#library that has some extra random generation tools
+library(MCMCglmm)
+
+#Latin hypercube comes from here
+library(FME)
+
+#for more options on generating random samples
+library(MCMCglmm)
+
+#the single target classifier
+library(randomForest)
+
+#investigate
+library(randomForestSRC)
+
+
+#lets generate a space of biophysical parameters and their spectral response with prosail
+prosail.runs <- 1000
+
+param.maxmin <- matrix(c(20,60,
+                         0.01,0.03,
+                         0,6),
+                       nrow=3,ncol = 2,byrow = T)
+
+LHS <- Latinhyper(param.maxmin,prosail.runs)
+#using the latin hypercube approach for sample generation
+param.list <- data.frame(Cab=LHS[,1],
+                         Cw=LHS[,2],
+                         LAI=LHS[,3])
+
+#we convert it to a spectral object
+my.spclib.plist <- PROSAIL(parameterList = param.list)
+s2.spclib <- spectralResampling(PROSAIL(parameterList = param.list),
+                                "Sentinel2",response_function = TRUE)
+s2.spectra <- spectra(s2.spclib)
+
+#commonly we dont use all of them due to their GSD:
+dim(s2.spectra)
+#lets pick only the bands no larger than 20m resolution:
+#b 2,3,4,5,6,7,8,8a,12,13
+s2.spectra.subsel <- s2.spectra[,c(2,3,4,5,6,7,8,9,12,13)]
+
+#lets combine all the data
+full.df <- cbind(param.list,s2.spectra.subsel)
+names(full.df) <- c("Cab","Cw","LAI",
+                    "B02","B03","B04",
+                    "B05","B06","B07",
+                    "B08","B8A","B11",
+                    "B12")
+
+#investigate how this function is called
+mRF01 <- rfsrc(Multivar(Cab,Cw,LAI)~.,data=full.df,block.size = 1)
+
+#let's see if the prediction against a test data is good first
+#these have not been bounded to the same bounds as the model and that is intentional to force errors
+prosail.runs.test <- 5000
+df.param.list.test <- data.frame(Cab=rtnorm(prosail.runs.test,mean=40,sd=15,lower=20,upper=60),
+                                 Cw=rtnorm(prosail.runs.test,mean=0.02,sd=0.009,lower=0,upper=0.03),
+                                 LAI=rtnorm(prosail.runs.test,mean=3,sd=2,lower=0,upper=6))
+test.prosail <- PROSAIL(parameterList = df.param.list.test)
+test.prosail.s2 <- spectralResampling(test.prosail,
+                                      "Sentinel2",response_function = TRUE)
+test.prosail.s2.spectra <-spectra(test.prosail.s2)
+test.prosail.s2.spectra.subsel <- test.prosail.s2.spectra[,c(2,3,4,5,6,7,8,9,12,13)]
+
+test.df <- cbind(df.param.list.test,test.prosail.s2.spectra.subsel)
+names(test.df)
+names(test.df) <- c("Cab","Cw","LAI",
+                    "B02","B03","B04",
+                    "B05","B06","B07",
+                    "B08","B8A","B11",
+                    "B12")
+
+#now.. we must be able to predic the df.param.list.test
+mRF.test.pred <- predict(mRF01,newdata=test.df)
+out.mRF.test.pred <- get.mv.predicted(mRF.test.pred)
+
+out.df <- df.param.list.test
+out.df$Cab_mRF <- out.mRF.test.pred [,1]
+out.df$Cw_mRF <- out.mRF.test.pred [,2]
+out.df$LAI_mRF <- out.mRF.test.pred [,3]
+
+par(mfrow=c(2,3))
+plot(out.df$Cab,out.df$Cab_mRF,main="Cab multi target RF model",ylab="Predicted",xlab="PROSAIL")
+plot(out.df$Cw,out.df$Cw_mRF,main="Cw multi target RF model",ylab="Predicted",xlab="PROSAIL")
+plot(out.df$LAI,out.df$LAI_mRF,main="LAI multi target RF model",ylab="Predicted",xlab="PROSAIL")
+
+plot(out.df$Cab-out.df$Cab_mRF,main="dCab multi target RF model",ylab="difference")
+plot(out.df$Cw-out.df$Cw_mRF,main="dCw multi target RF model",ylab="difference")
+plot(out.df$LAI-out.df$LAI_mRF,main="dLAI multi target RF model",ylab="difference")
+
+summary(lm(out.df$Cab~out.df$Cab_mRF))
+summary(lm(out.df$Cw~out.df$Cw_mRF))
+summary(lm(out.df$LAI~out.df$LAI_mRF))
+
+#it works more or less ok for the traits using Sentinel data. Lets see if we can operate over a raster
+#notice that i am not caring (yet) for viewing angles and etc and im just considering the model i created
+get.sensor.characteristics(0)
+library(raster)
+library(maptools)
+library(raster)
+library(rgdal)
+
+#loading a raster:
+rst.stack <- stack("D:/OVP_EOLDAS_R/TestData/S2_20190717_AOI_20mBands.tif")
+names(rst.stack) <- c("B02","B03","B04",
+                      "B05","B06","B07",
+                      "B08","B8A","B11",
+                      "B12")
+rst.stack <- rst.stack/10000 #converting to reflectance
+rst.stack
+#some values fall outside the ranges of what is expected, i guess we can correct for [0-1]
+rst.stack.fixed <- (rst.stack-cellStats(rst.stack,min))/(cellStats(rst.stack,max)-cellStats(rst.stack,min))
+rst.stack.fixed
+
+gc()
+#prd.stack <- predict(rst.stack.fixed,mRF01) #this command doesn-t work directly due to the specificity of the mRF
+
+#blunt force approach -> we make it a data frame, run the model and rebuild the raster
+shp.aoi <- readShapePoly("D:/OVP_EOLDAS_R/TestData/Test_AOI.shp")
+rst.stack.fixed.mask <- raster::mask(x=rst.stack.fixed,mask=shp.aoi)
+
+df.rst.stack <- as.data.frame(rst.stack.fixed.mask,xy=T) #converts to raster and adds a xy columns
+df.rst.stack <- na.omit(df.rst.stack) #removes all the non important areas
+
+#rst.test.df <- df.rst.stack[1:1000,c(3:12)]
+rst.test.df <- df.rst.stack[,c(3:12)]
+#lets start creating an output df
+out.rst.df <- data.frame(X=df.rst.stack$x,Y=df.rst.stack$y)
+
+rst.mRF.pred <- predict(mRF01,newdata=rst.test.df)
+out.rst.mRF.pred <- get.mv.predicted(rst.mRF.pred)
+
+#dimentions are good?
+dim(out.rst.mRF.pred)
+dim(rst.test.df)
+
+out.rst.df$Cab <- out.rst.mRF.pred[,1]
+out.rst.df$Cw  <- out.rst.mRF.pred[,2]
+out.rst.df$LAI <- out.rst.mRF.pred[,3]
+
+#Now we can recreate a raster
+coordinates(out.rst.df)<-~X+Y
+
+Cab.pred <- rasterize(out.rst.df,y=raster(rst.stack.fixed,1),field="Cab")
+Cw.pred <- rasterize(out.rst.df,y=raster(rst.stack.fixed,1),field="Cw")
+LAI.pred <- rasterize(out.rst.df,y=raster(rst.stack.fixed,1),field="LAI")
+
+output.stack <- stack(Cab.pred,Cw.pred,LAI.pred)
+names(output.stack) <- c("Cab","Cw","LAI")
+plot(output.stack)
+
+
+writeRaster(output.stack,bylayer=T,suffix='names',filename="D:/OVP_EOLDAS_R/TestData/S2_20190717_AOI.tif")
+writeRaster(rst.stack.fixed.mask ,
+            filename="D:/OVP_EOLDAS_R/TestData/S2_20190717_AOI_20mBands_Mask.tif",
+            options=c("COMPRESS=LZW"),
+            overwrite=TRUE)
