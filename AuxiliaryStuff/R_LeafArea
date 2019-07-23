@@ -1,0 +1,36 @@
+library(LeafArea)
+
+
+#is ImageJ installed?
+find.ij()
+
+#where to search?
+#the program is set for A4, 100 dpi. We just need to multiply the distance of default by 3 to get 300 dpi (i guess we should confirm manually?)
+first.run <- run.ij (set.directory="C:/OVP_LeafArea/Trials/Location_68/",
+                     distance.pixel = 2478,save=T,log=T)
+
+first.run.1 <- data.frame(first.run[1])
+
+first.run.2 <- first.run[2]
+first.run.2$each.image$Loc68_Plot1_01.jpg_mask.tif_mask.tif.txt
+
+#saves sum of leaf areas
+write.csv2(first.run.1,"C:/OVP_LeafArea/Trials/Location_68/results_cm2.csv")
+
+#saves all intermediate calculations
+k <- 1
+for (i in first.run.2$each.image){
+  #print(i)
+  print("saving to:")
+  print(paste("C:/OVP_LeafArea/Trials/Location_68/",
+              names(first.run.2$each.image)[k],sep=""))
+  
+  out.file = paste("C:/OVP_LeafArea/Trials/Location_68/",
+                   names(first.run.2$each.image)[k],sep="")
+  
+  k <- k+1
+  write.csv2(i,out.file)
+}
+
+
+first.run.2$each.image[10]
