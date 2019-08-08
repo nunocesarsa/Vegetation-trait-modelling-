@@ -28,6 +28,27 @@ gc()
 
 #limits taken from: https://www.mdpi.com/2072-4292/8/2/119
 
+#N Structure parameter
+#Cab chlorophyll content
+#Car Carotenoid content
+#Cbrown Brown pigment content
+#Cw Equivalent water thickness
+#Cm Dry matter content
+#psoil Dry/Wet soil factor
+#LAI Leaf area index
+
+#TypeLidf Type of leaf angle distribution. See details section
+#lidfa Leaf angle distribution. See details section
+#lidfb Leaf angle distribution. See details section
+#hspot Hotspot parameter
+#tts Solar zenith angle
+#tto Observer zenith angle
+#psi Relative azimuth angle
+#parameterList An optional object of class 'data.frame'. Function will iterate over rows of parameterList setting missing entries to default values. See examples section.
+#rsoil background (soil) reflectance. N
+
+
+
 param.maxmin <- matrix(c(0.8, 2.5, #leaf layers or leaf structure
                          0.2,77, #Cab
                          0,15, #Car
@@ -151,13 +172,16 @@ for (i in 1:ncol(LHS)){
 #first we must generate a new sampling of the trait space
 param.list <- data.frame(C1=LHS[,1],C2=LHS[,2],
                          C3=LHS[,3],C4=LHS[,4],
-                         C5=LHS[,5],C6=LHS[,6]) #this might require change if you change something before
+                         C5=LHS[,5],C6=LHS[,6],
+                         TypeLidf="Erectophile") #this might require change if you change something before
 #now the names must be changed
-colnames(param.list)<-names.traits
+colnames(param.list)<-c(names.traits,"TypeLidf")
 
 mRF.spclib <- PROSAIL(parameterList = param.list)
 mRF.s2.spclib <- spectralResampling(mRF.spclib,
                                     "Sentinel2",response_function = TRUE)
+
+
 #commonly we dont use all of them due to their GSD:
 dim(mRF.s2.spclib)
 
@@ -165,14 +189,23 @@ dim(mRF.s2.spclib)
 #b 2,3,4,5,6,7,8,8a,11,12
 mRF.s2.spc.sel <- mRF.s2.spclib[,c(2,3,4,5,6,7,8,9,12,13)]
 
+head(mRF.s2.spc.sel)
+
 #brings it all together
 full.df <- cbind(param.list,as.data.frame(mRF.s2.spc.sel))
+names(full.df)
 #next step is optional
-names(full.df) <- c(names.traits,
+names(full.df) <- c(names.traits,"TypeLidf",
                     "B02","B03","B04",
                     "B05","B06","B07",
                     "B08","B8A","B11",
                     "B12")
+
+names(full.df)
+#before going into the model we should remove the type lidf since we are trying with
+#just one type of leaf
+full.df <- full.df[,-7]
+names(full.df)
 
 #training the mfr
 mRF_all <- rfsrc(Multivar(N,Cab,Car,
@@ -195,11 +228,13 @@ param.maxmin.mean <- (param.maxmin[,2]-param.maxmin[,1])/2 + param.maxmin[,1]
 param.maxmin.mean
 param.maxmin
 
+
+#this is giving waaaay too many points outside the training range..
 df.param.list.test <- data.frame(N=rtnorm(prosail.runs.test,
-                                          mean=param.maxmin.mean[1],
-                                          sd=param.maxmin.mean[1]/2, #this is a random criteria..
-                                          lower=param.maxmin[1,1],
-                                          upper=param.maxmin[1,2]),
+                                         mean=param.maxmin.mean[1],
+                                         sd=param.maxmin.mean[1]/2, #this is a random criteria..
+                                         lower=param.maxmin[1,1],
+                                         upper=param.maxmin[1,2]),
                                  Cab=rtnorm(prosail.runs.test,
                                             mean=param.maxmin.mean[2],
                                             sd=param.maxmin.mean[2]/2, #this is a random criteria..
@@ -215,49 +250,88 @@ df.param.list.test <- data.frame(N=rtnorm(prosail.runs.test,
                                            sd=param.maxmin.mean[4]/2, #this is a random criteria..
                                            lower=param.maxmin[4,1],
                                            upper=param.maxmin[4,2]),
-                                 Cm=rtnorm(prosail.runs.test,mean=param.maxmin.mean[5],
+                                 Cm=rtnorm(prosail.runs.test,mean=param.maxmin.mean[4],
                                            sd=param.maxmin.mean[5]/2, #this is a random criteria..
                                            lower=param.maxmin[5,1],
                                            upper=param.maxmin[5,2]),
-                                 LAI=rtnorm(prosail.runs.test,mean=param.maxmin.mean[6],
+                                 LAI=rtnorm(prosail.runs.test,mean=param.maxmin.mean[5],
                                             sd=param.maxmin.mean[6]/2, #this is a random criteria..
                                             lower=param.maxmin[6,1],
-                                            upper=param.maxmin[6,2]))
+                                            upper=param.maxmin[6,2]),
+                                 TypeLidf="Erectophile")
+
+
+
 
 param.maxmin
 param.maxmin.mean
-summary(df.param.list.test)
 head(df.param.list.test)
 
+summary(df.param.list.test)
+summary(LHS)
+
+#something is wrong when using the rtnorm distribution for genreating random samples..
+#LHS.2 <- Latinhyper(param.maxmin,prosail.runs.test)
+#first we must generate a new sampling of the trait space
+#param.list.2 <- data.frame(#C1=LHS[,1],
+#  C2=LHS.2[,1],
+#  C3=LHS.2[,2],C4=LHS.2[,3],
+#  C5=LHS.2[,4],C6=LHS.2[,5],
+#  TypeLidf="Erectophile") #this might require change if you change something before
+#now the names must be changed
+#colnames(param.list.2)<-c(names.traits,"TypeLidf")
+
+
+
 #generating the responses in hyperspectral and sentinel 
-test.prosail <- PROSAIL(parameterList = df.param.list.test,TypeLidf="Erectophile",prosail.runs.test)
+test.prosail <- PROSAIL(parameterList = df.param.list.test)#,prosail.runs.test)
+#using the LHS
+#test.prosail <- PROSAIL(parameterList = df.param.list.2)#,prosail.runs.test)
+
 test.prosail.s2 <- spectralResampling(test.prosail,
                                       "Sentinel2",response_function = TRUE)
+
+par(mfrow=c(2,2))
+plot(mRF.spclib,main="RF train spectra set")
+plot(mRF.s2.spclib)
+
+plot(test.prosail,main="test spectra set")
+plot(test.prosail.s2)
 
 #bringing it all together
 #test.prosail.s2.spectra <-spectra(test.prosail.s2)
 test.prosail.s2.spectra.subsel <- test.prosail.s2[,c(2,3,4,5,6,7,8,9,12,13)]
+
 test.df <- cbind(df.param.list.test,as.data.frame(test.prosail.s2.spectra.subsel ))
-names(test.df) <- c(names.traits,
+names(test.df)
+names(test.df) <- c(names.traits,"TypeLidf",
                     "B02","B03","B04",
                     "B05","B06","B07",
                     "B08","B8A","B11",
                     "B12")
+#again, for now we dont care for the leaf
+test.df <- test.df[,-7]
+
 
 #now.. we must be able to predic the df.param.list.test
 mRF.test.pred <- predict(mRF_all,newdata=test.df)
 out.mRF.test.pred <- get.mv.predicted(mRF.test.pred)
 
 #lets generate a out df
-out.df <- df.param.list.test
+out.df <- df.param.list.test[,-7]
+
+head(out.df)
+head(out.mRF.test.pred)
 
 out.df <- cbind(out.df,out.mRF.test.pred[,1:ncol(LHS)]) #CAREFUL THE NAMES ARE THE SAME
+names(out.df)
 names(out.df) <- c(names.traits,paste(names.traits,"mRF",sep = "_"))
 
 head(out.df)
 
 #time to plot
 par(mfrow=c(2,3))
+ncol(LHS)
 for (i in 1:ncol(LHS)){
   print(i)
   
@@ -268,7 +342,3 @@ for (i in 1:ncol(LHS)){
        ylab="Predicted")
   
 }
-
-#is the saturation because of bad limits?
-summary(LHS)
-summary(df.param.list.test)
