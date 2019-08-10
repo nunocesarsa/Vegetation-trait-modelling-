@@ -1,0 +1,518 @@
+TRY Data Explorer Output	2019-8-10
+Species Trait Table
+Specieslist: 13065, 34017, 41658, 42893, 47776, 928, 55598, 235402, 
+Trait	TraitID	.Cirsium spinosissimum.	.Lolium perenne.	.Phragmites australis.	.Poa trivialis.	.Salix alba.	.Achlys triphylla.	.Urtica dioica.	.Jacobaea vulgaris.	
+Budbank height distribution	153	24	91	216	41	0	1	138	151	
+Leaf compoundness	17	1	2	18	2	15	1	10	4	
+Leaf photosynthesis pathway	22	3	763	73	29	29	1	25	15	
+Leaf type	43	1	739	63	18	20	1	12	7	
+Leaflet number per leaf	759	1	1	5	1	3	2	4	2	
+Plant growth form	42	16	1110	553	204	311	8	272	51	
+Plant growth form detailed consolidated	3401	1	1	0	1	1	1	1	1	
+Plant growth form simple consolidated	3400	1	1	1	1	1	1	1	1	
+Plant lifespan (longevity)	59	5	34	76	19	34	1	39	44	
+Plant woodiness	38	1	750	89	26	21	3	29	19	
+Seed dry mass	26	1	71	34	57	10	4	44	36	
+Species tolerance to frost	31	0	3	7	4	6	1	2	1	
+Bark sclereids arrangement	834	1	0	0	0	4	0	1	1	
+Bark secondary compounds: oil, tannins, latex, slime	835	1	0	0	0	3	0	0	0	
+Bark sieve tubes grouping	836	2	0	0	0	3	0	1	1	
+Bark structure 	837	1	0	0	0	4	0	0	1	
+Budbank seasonality	865	16	55	152	21	0	0	95	103	
+Dispersal syndrome	28	14	295	658	150	21	0	2895	519	
+Dispersal unit appendages	892	5	5	5	5	5	0	5	6	
+Dispersal unit dry mass	233	7	8	7	8	0	0	6	5	
+Dispersal unit exposure 	893	1	1	1	1	1	0	1	1	
+Dispersal unit length	237	12	18	3	16	3	0	13	21	
+Dispersal unit shape	232	8	9	3	9	1	0	9	10	
+Dispersal unit surface structure	894	1	1	1	1	0	0	0	0	
+Dispersal unit thickness 	235	12	17	2	12	2	0	9	22	
+Dispersal unit type	231	17	163	404	91	7	0	1607	332	
+Dispersal unit width	236	12	17	3	13	3	0	13	8	
+Flower color	207	2	1	1	1	3	0	2	2	
+Flower insemination autogamous or xenogamous	204	1	1	1	1	1	0	1	1	
+Flower pollinator and type of reward	205	3	2	2	2	3	0	2	3	
+Flower sex	213	1	1	1	2	1	0	3	1	
+Flower sex timing	212	1	2	0	0	0	0	0	1	
+Flower sexual self-incompatibility mechanism	211	1	5	2	2	0	0	1	2	
+Fruit type	99	2	2	2	2	2	0	2	2	
+Leaf area (in case of compound leaves: leaf, petiole included)	3110	6	77	8	18	1	0	42	0	
+Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA): petiole included	3116	6	102	22	50	6	0	86	7	
+Leaf distribution along the shoot axis (arrangement type)	16	4	15	46	10	7	0	18	26	
+Leaf dry mass (single leaf)	55	6	89	17	40	24	0	52	7	
+Leaf dry mass per leaf fresh mass (leaf dry matter content, LDMC)	47	6	166	72	145	70	0	185	18	
+Leaf fresh mass	163	6	15	0	15	0	0	34	0	
+Leaf phenology type	37	1	11	46	8	41	0	18	7	
+Leaf shape	154	1	6	32	6	7	0	28	7	
+Leaf texture (sclerophylly, physical strength, toughness)	2	1	10	34	12	4	0	9	5	
+Plant clonal growth form	341	2	10	35	9	2	0	12	20	
+Plant growth rate	587	1	1	1	1	3	0	1	1	
+Plant height generative	3107	5	21	7	13	7	0	30	13	
+Plant height vegetative	3106	9	296	69	197	60	0	117	37	
+Plant life form (Raunkiaer life form)	343	4	13	24	15	10	0	37	12	
+Plant mating system	347	2	4	2	1	2	0	4	3	
+Plant morphological adaptations: root metamorphoses	814	1	0	1	0	0	0	0	1	
+Plant morphological adaptations: seed or dispersal unit metamorphoses	813	4	4	5	5	4	0	5	6	
+Plant morphological adaptations: shoot metamorphoses	817	2	1	4	1	3	0	7	2	
+Plant morphological adaptations: storage organs	816	4	7	18	6	0	0	11	11	
+Plant nitrogen(N) fixation capacity	8	1	16	19	7	26	0	17	7	
+Plant number of offspring shoots per parent shoot per year	361	2	9	34	7	0	0	12	19	
+Plant nutrition mode (heterotrophy)	201	1	3	6	4	10	0	4	3	
+Plant ontogeny: age of maturity (first flowering)	155	2	10	24	9	1	0	16	21	
+Plant reproductive phenology timing	335	8	38	34	51	17	0	30	37	
+Plant vegetative regeneration species offspring size relative to parent	1008	2	9	34	7	0	0	12	19	
+Plant vegetative reproduction: lateral spread	334	2	9	34	7	0	0	15	19	
+Plant vegetative reproduction: persistence of connection between clonal growth organs	358	2	9	34	7	0	0	12	19	
+Plant vegetative reproduction: role of clonal growth organ in plant growth	357	2	9	34	7	0	0	12	19	
+Pollination syndrome	29	8	6	7	5	9	0	13	22	
+Root position along clonal growth organ	1093	2	9	33	7	0	0	12	19	
+Root type, root architecture	65	2	9	19	6	2	0	13	13	
+Seed (seedbank) longevity	33	2	255	81	383	18	0	313	107	
+Seed germination requirement	596	1	7	4	7	3	0	7	8	
+Seed length	27	1	3	4	12	5	0	4	2	
+Seed morphology type	350	1	6	3	9	4	0	5	5	
+Seed number per dispersal unit	351	1	1	1	1	1	0	2	3	
+Seed storage behaviour	98	1	3	1	1	1	0	1	1	
+Seed terminal velocity	66	5	48	19	57	1	0	5	33	
+Seedbank density	1111	1	196	80	437	19	0	287	88	
+Seedbank duration	2809	1	177	70	430	16	0	266	83	
+Seedbank number of layers	2807	1	183	72	433	16	0	284	83	
+Seedbank type	159	2	396	148	874	34	0	578	182	
+Shoot branching type; shoot branching architecture	140	3	12	41	9	2	0	19	21	
+Shoot cyclicity	1118	2	9	34	7	0	0	12	19	
+Species environmental indicator value according to Ellenberg: continentality	1130	1	1	1	1	1	0	1	1	
+Species environmental indicator value according to Ellenberg: light	1131	1	2	2	3	3	0	2	2	
+Species environmental indicator value according to Ellenberg: moisture	1132	1	3	2	3	3	0	5	2	
+Species environmental indicator value according to Ellenberg: nitrogen	1133	1	4	4	2	4	0	2	4	
+Species environmental indicator value according to Ellenberg: pH 	1134	1	3	6	3	3	0	4	3	
+Species environmental indicator value according to Ellenberg: salt tolerance	1135	1	2	4	2	2	0	2	2	
+Species environmental indicator value according to Ellenberg: temperature	1136	1	2	1	2	2	0	2	2	
+Species generation overlap	1137	2	9	34	7	0	0	12	18	
+Species genotype: chromosome base number	221	2	2	4	2	2	0	4	2	
+Species genotype: chromosome number	223	2	92	24	22	49	0	75	11	
+Species genotype: chromosome number sporophytic	3098	3	0	0	3	0	0	0	0	
+Species genotype: chromosome ploidy	222	3	94	76	23	49	0	78	16	
+Species occurrence range: altitude of origin	826	3	2	0	2	0	0	0	0	
+Species occurrence range: continentality	823	4	5	2	5	6	0	1	5	
+Species occurrence range: endemism	244	1	1	1	1	1	0	2	1	
+Species occurrence range: native vs invasive	218	6	9	9	7	15	0	9	7	
+Species occurrence range: number of floristic zones	200	1	1	1	1	1	0	1	1	
+Species occurrence range: origin zonal	827	3	4	1	3	2	0	1	1	
+Species phyto-sociological group	230	4	5	7	5	2	0	9	5	
+Species reproduction type	208	1	1	1	1	1	0	1	2	
+Species start of CGO formation versus reproduction	1146	2	9	34	7	0	0	12	19	
+Species strategy type according to Grime	196	1	2	1	2	1	0	2	1	
+Species tolerance to human impact	199	5	5	5	5	5	0	5	4	
+Tillering type	1194	2	8	34	7	0	0	12	19	
+Wood axial parenchyma types	1211	2	0	0	0	1	0	2	1	
+Wood fiber cell wall thickness	1216	1	0	0	0	1	0	1	1	
+Wood fiber-pits types	1220	1	0	0	0	1	0	1	1	
+Wood growth ring distinction	273	3	0	0	0	8	0	2	2	
+Wood ray types	1234	4	0	0	0	2	0	5	4	
+Wood vessel cell-wall thickness	1236	1	0	0	0	0	0	0	0	
+Wood vessel density	1237	1	0	0	0	1	0	1	1	
+Wood vessel diameter	1238	1	0	0	0	1	0	1	1	
+Wood vessel distribution	1239	1	0	0	0	2	0	2	2	
+Wood vessel intervessel pits	1240	2	0	0	0	1	0	2	1	
+Wood vessel perforation plates	278	1	0	0	0	3	0	1	1	
+Dispersal kernel measurement (relative abundance at given distance)	3127	0	0	0	0	0	0	0	28	
+Flower number of pollen per ovule	210	0	0	0	0	0	0	0	1	
+Flower UV light reflectance	215	0	0	0	0	0	0	0	3	
+Plant height to plant dry mass ratio	3010	0	0	0	0	0	0	0	3	
+Seed germination stimulation	34	0	0	0	0	0	0	0	6	
+Seed releasing height	1107	0	0	0	0	0	0	0	1	
+Coarse root to fine root mass ratio	1019	0	1	0	0	0	0	0	0	
+Dispersal unit floating capacity	1263	0	144	404	71	0	0	1608	314	
+Fine root (absorptive) diameter	2038	0	1	0	0	0	0	0	0	
+Fine root (absorptive) length per absorptive fine root dry mass (specific absorptive fine root lengt	2062	0	1	0	0	0	0	0	0	
+Fine root (absorptive) surface area per absorptive fine root dry mass (specific absorptive fine root	2069	0	1	0	0	0	0	0	0	
+Fine root (absorptive) tissue density (absorptive fine root dry mass per absorptive fine root volume	2037	0	1	0	0	0	0	0	0	
+Fine root carbon (C) content per fine root dry mass	471	0	1	0	1	0	0	0	0	
+Fine root carbon/nitrogen (C/N) ratio	167	0	1	0	1	0	0	0	0	
+Fine root cellulose content per fine root dry mass	1785	0	1	0	1	0	0	0	0	
+Fine root diameter	896	0	3	0	2	0	0	1	1	
+Fine root dry mass fraction in respective root diameter class	2006	0	1	0	1	0	0	0	0	
+Fine root dry mass per fine root fresh mass (fine root dry matter content; RDMC)	695	0	1	0	1	0	0	0	0	
+Fine root dry mass per ground area	1795	0	4	0	3	0	0	0	0	
+Fine root hemicellulose content per fine root dry mass	1854	0	1	0	1	0	0	0	0	
+Fine root length per fine root dry mass (specific fine root length, SRL)	614	0	2	0	1	1	0	8	0	
+Fine root length per ground area	2024	0	1	0	0	0	0	0	0	
+Fine root length per soil volume	2025	0	1	0	0	0	0	0	0	
+Fine root lignin content per fine root dry mass	1784	0	4	0	4	0	0	0	0	
+Fine root nitrogen (N) content per fine root dry mass	475	0	5	0	4	0	0	0	0	
+Fine root respiration rate per fine root dry mass	1791	0	2	0	2	0	0	0	0	
+Fine root rooting depth: fraction of fine root dry mass contained in depth interval	2029	0	1	0	0	0	0	0	0	
+Fine root surface area per fine root dry mass (specific fine root area)	1813	0	1	0	1	0	0	0	0	
+Fine root tissue density (fine root dry mass per fine root volume)	1781	0	3	0	2	0	0	0	0	
+Fine root water soluble compounds per fine root dry mass	1890	0	1	0	1	0	0	0	0	
+Flower conspicuous	581	0	1	1	1	1	0	0	0	
+Flower number per plant	2999	0	53	0	41	0	0	0	0	
+Flower sexual syndrome (dichogamy, cleistogamy, dioecious, monoecious)	915	0	5	4	2	2	0	2	2	
+Flowering requirement (requirement for fertility)	597	0	1	1	1	1	0	0	0	
+Fruit/seed abundance	605	0	1	1	1	1	0	0	0	
+Fruit/seed color	585	0	1	1	1	1	0	0	0	
+Fruit/seed conspicuous	586	0	1	1	1	1	0	0	0	
+Leaf area (in case of compound leaves undefined if leaf or leaflet, undefined if petiole is in- or e	3114	0	76	24	69	4	0	6	3	
+Leaf area (in case of compound leaves: leaf, petiole excluded)	3108	0	1	4	6	0	0	11	1	
+Leaf area (in case of compound leaves: leaflet, petiole excluded)	3109	0	4	13	9	5	0	4	6	
+Leaf area (in case of compound leaves: leaflet, petiole included)	3111	0	1	0	10	5	0	0	0	
+Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA): petiole excluded	3115	0	33	38	22	28	0	43	18	
+Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA): undefined if petiole is in- or exclu	3117	0	177	62	94	35	0	79	10	
+Leaf area per plant dry mass (leaf area ratio; LAR)	109	0	71	0	68	0	0	26	0	
+Leaf calcium (Ca) content per leaf dry mass	252	0	29	0	10	0	0	0	0	
+Leaf carbon (C) content per leaf area	570	0	26	23	33	3	0	19	8	
+Leaf carbon (C) content per leaf dry mass	13	0	63	28	49	3	0	28	8	
+Leaf carbon (C) isotope fractionation ('big' Delta 13C)	3478	0	3	1	0	0	0	0	0	
+Leaf carbon (C) isotope signature (delta 13C)	89	0	3	7	0	0	0	1	0	
+Leaf carbon/nitrogen (C/N) ratio	146	0	15	21	23	3	0	24	4	
+Leaf cellulose content per leaf dry mass	92	0	1	0	1	0	0	0	0	
+Leaf color	582	0	2	20	2	2	0	0	0	
+Leaf density (leaf tissue density, leaf dry mass per leaf volume)	48	0	120	4	7	0	0	4	1	
+Leaf hemi-cellulose content per leaf dry mass	94	0	1	0	1	0	0	0	0	
+Leaf inrolling of lamina	62	0	1	10	1	0	0	2	1	
+Leaf isoprene emission category	937	0	1	4	0	1	0	1	0	
+Leaf isoprene emission rate per leaf area	938	0	2	6	0	2	0	2	0	
+Leaf isoprene emission rate per leaf dry mass	939	0	1	3	0	1	0	1	0	
+Leaf length	144	0	4	6	11	0	0	1	0	
+Leaf lifespan (longevity)	12	0	4	6	0	3	0	8	0	
+Leaf lignin content per leaf dry mass	87	0	1	0	1	0	0	0	0	
+Leaf magnesium (Mg) content per leaf dry mass	257	0	29	0	8	0	0	0	0	
+Leaf minus soil nitrogen (N) isotope signature (leaf delta 15N minus soil delta 15N)	79	0	1	0	0	0	0	0	0	
+Leaf nitrogen (N) content per leaf area	50	0	39	47	46	3	0	37	8	
+Leaf nitrogen (N) content per leaf dry mass	14	0	80	96	66	10	0	65	9	
+Leaf nitrogen (N) isotope signature (delta 15N)	78	0	3	6	0	0	0	1	0	
+Leaf nitrogen/phosphorus (N/P) ratio	56	0	2	19	1	0	0	18	0	
+Leaf palatability	152	0	10	3	5	2	0	10	29	
+Leaf pH	615	0	1	7	2	0	0	4	0	
+Leaf phosphorus (P) content per leaf area	51	0	27	42	14	1	0	29	8	
+Leaf phosphorus (P) content per leaf dry mass	15	0	34	106	19	5	0	48	8	
+Leaf photosynthesis carboxylation capacity (Vcmax) per leaf area (Farquhar model)	186	0	1	0	1	0	0	0	0	
+Leaf photosynthesis electron transport capacity (Jmax) per leaf area (Farquhar model)	269	0	1	0	1	0	0	0	0	
+Leaf photosynthesis photoperiodism: type	1013	0	1	0	0	0	0	1	1	
+Leaf photosynthesis rate per leaf area	53	0	15	10	31	0	0	14	8	
+Leaf photosynthesis rate per leaf dry mass	40	0	1	3	13	0	0	3	0	
+Leaf photosynthesis: intercellular CO2 concentration	49	0	7	7	17	0	0	9	8	
+Leaf porosity	583	0	2	2	2	3	0	8	0	
+Leaf potassium (K) content per leaf dry mass	44	0	29	6	10	0	0	0	0	
+Leaf soluble components content per leaf dry mass	85	0	1	0	1	0	0	0	0	
+Leaf thickness	46	0	125	19	10	0	0	7	2	
+Leaf transpiration rate per leaf area	111	0	7	5	8	0	0	8	8	
+Leaf volatile organic carbon (VOC): monoterpene emission category	965	0	1	1	0	1	0	1	0	
+Leaf volatile organic carbon (VOC): other than monoterpenes emission	2815	0	1	4	0	1	0	1	0	
+Leaf water content per leaf dry mass (not saturated)	3120	0	12	32	12	40	0	106	2	
+Leaf width	145	0	2	6	9	0	0	0	0	
+Litter (fine root) decomposition: fraction of fine root dry mass not decomposed to original fine roo	1909	0	721	0	1	0	0	0	0	
+Litter decomposition rate	39	0	3	3	0	10	0	6	2	
+Litter SLA (leaf area per leaf dry mass, specific leaf area, 1/LMA of leaf litter)	69	0	2	0	0	5	0	5	0	
+Mycorhizza: soil ergosterol content per soil dry mass or growth medium dry mass	1447	0	1	0	0	0	0	0	0	
+Mycorrhiza type	7	0	774	78	53	21	0	45	32	
+Mycorrhizal colonization: classified fractions of root length that contain mycorrhizae	1433	0	1	9	9	0	0	3	3	
+Mycorrhizal infection intensity	1030	0	2	11	10	1	0	4	4	
+Plant biomass and allometry: Leaf dry mass per plant	129	0	71	0	71	0	0	26	0	
+Plant biomass and allometry: Leaf dry mass per plant dry mass (leaf weight ratio, LWR)	110	0	7	0	17	0	0	29	0	
+Plant biomass and allometry: Leaf fresh mass per plant	3406	0	68	0	61	0	0	0	0	
+Plant biomass and allometry: Leaves per plant (emergent, mature, senescent)	1032	0	70	0	58	0	0	0	0	
+Plant biomass and allometry: Plant dry mass	700	0	78	0	73	0	0	8	8	
+Plant biomass and allometry: Plant surface area per plant dry mass of all green parts	776	0	5	0	5	0	0	5	5	
+Plant biomass and allometry: Root dry mass per plant	363	0	78	0	78	0	0	8	8	
+Plant biomass and allometry: Root fresh mass per plant	3405	0	74	0	65	0	0	0	0	
+Plant biomass and allometry: Root mass fraction (fraction of root dry mass per whole plant dry mass)	470	0	1	0	3	0	0	0	0	
+Plant biomass and allometry: Root volume per plant	3408	0	74	0	67	0	0	0	0	
+Plant biomass and allometry: Shoot dry mass (plant aboveground dry mass) per plant	403	0	136	0	124	0	0	34	11	
+Plant defence mechanisms: chemical	346	0	4	1	2	2	0	2	7	
+Plant defence mechanisms: physical	345	0	2	2	2	4	0	5	4	
+Plant fresh mass	3407	0	75	0	65	0	0	0	0	
+Plant growth rate relative (plant relative growth rate, RGR)	77	0	18	0	18	1	0	14	7	
+Plant height versus plant width relationship	1016	0	1	2	1	1	0	1	1	
+Plant human usage types	604	0	13	15	13	31	0	0	0	
+Plant light requirement	788	0	2	2	2	0	0	5	2	
+Plant moisture use type	599	0	1	1	1	1	0	0	0	
+Plant mono/poly carpic	1029	0	1	2	1	1	0	1	1	
+Plant palatability	679	0	5	5	5	6	0	0	0	
+Plant propagation type	609	0	11	11	10	9	0	1	1	
+Plant resprouting capacity	819	0	2	1	1	3	0	0	1	
+Plant vegetative phenology (leaf phenology)	1251	0	2	2	2	2	0	0	0	
+Plant vegetative regeneration capacity	344	0	7	6	6	5	0	6	6	
+Plant vegetative reproduction: clonal growth organ	356	0	2	1	2	0	0	2	3	
+Plant vegetative reproduction: clonality of ramets	329	0	1	2	2	1	0	2	2	
+Plant vegetative reproduction: distance between ramets	149	0	1	2	1	0	0	2	1	
+Plant vegetative reproduction: pattern forming	1206	0	1	2	1	0	0	1	0	
+Plant vegetative reproduction: spread rate	613	0	1	1	1	1	0	0	0	
+Plant vital attributes of persistence and establishment	320	0	1	2	0	0	0	0	0	
+Reproductive structures nitrogen (N) content per reproductive structures dry mass	684	0	1	0	0	0	0	1	1	
+Reproductive structures nitrogen/phosphorus (N/P) ratio	688	0	1	0	0	0	0	0	0	
+Reproductive structures phosphorus (P) content per reproductive structures dry mass	685	0	1	0	0	0	0	0	0	
+Root calcium (Ca) content per root dry mass	1054	0	97	0	73	0	0	0	0	
+Root carbon (C) content per root dry mass	84	0	80	1	74	0	0	0	1	
+Root carbon (C) isotope signature (delta 13C)	90	0	1	0	0	0	0	0	0	
+Root carbon/nitrogen (C/N) ratio	1055	0	79	1	68	0	0	0	1	
+Root cellulose content per root dry mass	91	0	1	0	0	0	0	0	0	
+Root diameter	83	0	2	1	6	0	0	0	0	
+Root dry mass per root fresh mass (root dry matter content; RDMC)	785	0	76	0	73	0	0	0	0	
+Root hemicellulose content per root dry mass	93	0	1	0	0	0	0	0	0	
+Root length fraction in respective root diameter class (e.g. fine root length per total root length;	1489	0	1	1	1	0	0	0	0	
+Root length per root dry mass (specific root length, SRL)	1080	0	6	1	11	0	0	0	0	
+Root lignin content per root dry mass	88	0	1	1	0	0	0	0	0	
+Root magnesium (Mg) content per root dry mass	1081	0	97	0	73	0	0	0	0	
+Root microbial relations: ratio of root fungal carbon (C) to root bacterial carbon	1445	0	1	0	0	0	0	0	0	
+Root microbial relations: root bacterial biomass carbon (C) content per root dry mass	1444	0	1	0	0	0	0	0	0	
+Root microbial relations: root fungal biomass carbon (C) content per root dry mass	1443	0	1	0	0	0	0	0	0	
+Root microbial relations: root glucosamine content per root dry mass	1439	0	1	0	0	0	0	0	0	
+Root microbial relations: root microbial biomass carbon (C) content per root dry mass	1441	0	1	0	0	0	0	0	0	
+Root microbial relations: root microbial biomass nitrogen (N) content per root dry mass	1442	0	1	0	0	0	0	0	0	
+Root morphological adaptations: aerenchyma	815	0	1	1	2	1	0	2	1	
+Root muramic acid content per root dry mass	1440	0	1	0	0	0	0	0	0	
+Root nitrogen (N) content per root dry mass	80	0	80	3	71	0	0	1	2	
+Root nitrogen (N) isotope signature (delta 15N)	81	0	1	0	0	0	0	0	0	
+Root persistence (lifespan, longevity)	1085	0	2	0	1	0	0	0	0	
+Root phosphorus (P) content per root dry mass	683	0	98	2	73	0	0	1	1	
+Root potassium (K) content per root dry mass	1086	0	97	0	73	0	0	0	0	
+Root root hair length	1075	0	1	0	0	0	0	0	0	
+Root root hair presence	1076	0	2	0	0	0	0	2	0	
+Root rooting depth	6	0	5	7	2	1	0	1	2	
+Root soluble components content per root dry mass	86	0	1	0	0	0	0	0	0	
+Root surface area per root dry mass (specific root area)	1089	0	6	1	11	0	0	0	0	
+Root tissue density (root dry mass per root volume)	82	0	81	1	78	0	0	0	0	
+Root volume per root dry mass 	1091	0	6	1	6	0	0	0	0	
+Root/shoot ratio	9	0	81	1	76	0	0	8	8	
+Seed germination rate (germination efficiency)	95	0	25	4	3	4	0	5	5	
+Seed germination temperature	353	0	2	3	2	1	0	4	5	
+Seed germination type	1102	0	2	2	1	0	0	1	1	
+Seed number per ramet	336	0	1	0	2	0	0	4	5	
+Seed number per reproducton unit	138	0	4	11	2	6	0	15	15	
+Seed number per square meter	1105	0	2	1	0	0	0	3	1	
+Seed oil content per seed mass	96	0	3	0	0	0	0	6	0	
+Seed protein content per seed mass	97	0	3	0	0	0	0	5	0	
+Seed shape	349	0	1	2	1	0	0	2	1	
+Seed spread rate	610	0	1	1	1	2	0	0	0	
+Seed structure type	1108	0	3	2	7	3	0	3	3	
+Seed width	239	0	1	1	18	3	0	8	1	
+Seedbank thickness of top layer	2808	0	151	60	371	16	0	200	72	
+Seedling vigor	611	0	1	1	1	1	0	0	0	
+Shoot calcium (Ca) content per shoot dry mass	704	0	1	0	4	0	0	0	0	
+Shoot carbon (C) content per shoot dry mass	775	0	8	0	8	0	0	8	8	
+Shoot carbon/nitrogen (C/N) ratio	409	0	8	1	9	1	0	8	8	
+Shoot emergences (pubescence, hairs, spines, thorns)	1255	0	1	2	2	0	0	2	1	
+Shoot fresh mass	1119	0	54	0	44	0	0	0	0	
+Shoot fresh mass per shoot dry mass	1120	0	1	0	0	0	0	0	0	
+Shoot magnesium (Mg) content per shoot dry mass	702	0	1	0	4	0	0	0	0	
+Shoot nitrogen (N) content per shoot dry mass	339	0	7	0	8	0	0	8	8	
+Shoot number of leaves	437	0	4	0	10	0	0	2	0	
+Shoot organic nitrogen (N) content per shoot dry mass	1126	0	1	0	0	0	0	0	0	
+Shoot phosphorus (P) content per shoot dry mass	340	0	6	0	9	0	0	5	5	
+Shoot potassium (K) content per shoot dry mass	701	0	1	0	4	0	0	0	0	
+Shoot sodium (Na) content per shoot dry mass	1127	0	1	0	4	0	0	0	0	
+Species genotype: chromosome cDNA content	224	0	91	62	19	47	0	71	8	
+Species habitat characterisation / Plant requirement: precipitation	602	0	2	2	2	2	0	0	0	
+Species habitat characterisation / Plant requirement: soil pH	600	0	2	2	2	2	0	0	0	
+Species habitat characterisation / Plant requirement: soil texture	593	0	3	3	3	3	0	0	0	
+Species invasion introduction year	3063	0	1	0	0	0	0	0	0	
+Species nutrient requirements	1138	0	2	9	2	2	0	2	3	
+Species occurrence rang: typical abundance where naturally occurring	1139	0	1	2	1	1	0	1	1	
+Species occurrence range characteristics	1140	0	31	54	32	19	0	30	30	
+Species occurrence range: climate type	825	0	7	32	12	6	0	26	5	
+Species occurrence range: elevation range	1141	0	1	0	0	0	0	0	0	
+Species occurrence range: invasiveness	824	0	1	2	0	0	0	0	0	
+Species soil pH requirement	1142	0	2	20	0	0	0	2	2	
+Species status (nativity at growth location)	1145	0	1	2	1	1	0	1	1	
+Species tolerance to CaCO3	595	0	1	1	1	1	0	0	0	
+Species tolerance to drought	30	0	1	2	4	5	0	0	0	
+Species tolerance to fire	318	0	7	10	2	4	0	0	1	
+Species tolerance to grazing	228	0	1	3	1	1	0	2	1	
+Species tolerance to heavy metals	1038	0	1	2	0	0	0	0	0	
+Species tolerance to hedges	598	0	1	1	0	1	0	0	0	
+Species tolerance to mowing	227	0	1	1	1	0	0	1	1	
+Species tolerance to salt	1254	0	2	9	2	1	0	1	1	
+Species tolerance to shade	603	0	5	9	3	7	0	1	4	
+Species tolerance to trampling	229	0	1	1	1	0	0	1	1	
+Species tolerance to waterlogging	61	0	1	1	1	3	0	0	0	
+Species US Wetland Indicator	575	0	1	1	1	1	0	0	0	
+Stem nitrogen (N) content per stem dry mass	406	0	1	0	3	0	0	1	1	
+Stem nitrogen/phosphorus (N/P) ratio	686	0	1	0	0	0	0	1	0	
+Stem phosphorus (P) content per stem dry mass	616	0	1	0	0	0	0	1	0	
+Stem self-supporting	1188	0	1	2	1	1	0	1	1	
+Stem specific density (SSD) or wood density (stem dry mass per stem fresh volume)	4	0	1	7	6	9	0	12	0	
+Stomata conductance per leaf area	45	0	7	8	31	0	0	9	8	
+Stomata distribution to ab- and adaxial leaf surfaces	781	0	1	9	0	1	0	1	1	
+Bark persistence (deciduous, persistent)	833	0	0	6	0	0	0	0	0	
+Belowground plant organ carbon (C) content per belowground plant organ dry mass	2551	0	0	9	0	0	0	0	0	
+Belowground plant organ carbon/nitrogen (C/N) ratio	2569	0	0	9	0	0	0	0	0	
+Belowground plant organ debris decomposition rate constant 	2799	0	0	10	0	0	0	0	0	
+Belowground plant organ decomposition: fraction nitrogen (N) remaining	3337	0	0	7	0	0	0	0	0	
+Belowground plant organ decomposition: fraction of belowground plant organ dry mass not decomposed t	2677	0	0	7	0	0	0	0	0	
+Belowground plant organ lignin content per belowground plant organ dry mass	2552	0	0	1	0	0	0	0	0	
+Belowground plant organ nitrogen (N) content per belowground plant organ dry mass	2547	0	0	9	0	0	0	0	0	
+Belowground plant organ ratio of lignin to nitrogen (N)	2666	0	0	1	0	0	0	0	0	
+Dispersal distance	193	0	0	1	0	0	0	0	0	
+Dispersal frequenzy	890	0	0	2	0	1	0	1	0	
+Leaf angle (inclination, orientation)	3	0	0	21	0	141	0	3	2	
+Leaf area (in case of compound leaves: leaf, undefined if petiole in- or excluded)	3112	0	0	3	0	4	0	3	1	
+Leaf area (in case of compound leaves: leaflet, undefined if petiole is in- or excluded)	3113	0	0	6	0	4	0	7	2	
+Leaf aromatic	929	0	0	14	0	0	0	0	0	
+Leaf ash content per leaf dry mass	333	0	0	26	0	0	0	0	0	
+Leaf cell wall mass per leaf area	3374	0	0	3	0	0	0	0	0	
+Leaf cell wall mass per leaf dry mass	3375	0	0	3	0	0	0	0	0	
+Leaf cell wall nitrogen (N) content per cell wall dry mass	3376	0	0	1	0	0	0	0	0	
+Leaf cell wall nitrogen (N) content per leaf area	3377	0	0	1	0	0	0	0	0	
+Leaf chlorophyll content per leaf dry mass	164	0	0	2	0	0	0	1	0	
+Leaf chlorophyll fluorescence	753	0	0	6	0	0	0	0	0	
+Leaf display type	931	0	0	10	0	0	0	0	0	
+Leaf emergences (pubescence, pruinescence, hairs, spines, thorns)	677	0	0	77	0	6	0	0	0	
+Leaf fraction of nitrogen (N) in cell wall	3378	0	0	1	0	0	0	0	0	
+Leaf heterophylly	936	0	0	3	4	2	0	3	0	
+Leaf margin type	963	0	0	39	0	3	0	0	0	
+Leaf mesophyll cell wall thickness	3383	0	0	1	0	0	0	0	0	
+Leaf mesophyll conductance	964	0	0	1	0	0	0	0	0	
+Leaf nitrogen (N) fraction in Rubisco	187	0	0	1	1	0	0	0	0	
+Leaf phosphorus (P) retranslocation prior to leaf senescence	3026	0	0	1	0	0	0	0	0	
+Leaf photosynthesis CO2 concentration at chloroplast	3007	0	0	1	0	0	0	0	0	
+Leaf photosynthesis drawdown of CO2 concentration from ambient airspace to intercellular airspace	3126	0	0	1	0	0	0	0	0	
+Leaf photosynthesis drawdown of CO2 concentration from intercellular airspace to chloroplast	3380	0	0	1	0	0	0	0	0	
+Leaf photosynthesis quantum yield (QY; corresponding to photosynthetic efficiency)	3394	0	0	3	0	0	0	0	0	
+Leaf photosynthesis: intercellular CO2 concentration to ambient CO2 (ci/ca)	3379	0	0	1	0	0	0	0	0	
+Leaf photosynthesis: quantum efficiency of photosystem II (maximum potential; FvFm)	3393	0	0	3	0	0	0	0	0	
+Leaf potassium (K) content per leaf area	52	0	0	6	0	0	0	0	0	
+Leaf presence	2818	0	0	7	0	0	0	0	0	
+Leaf revolute or involute	975	0	0	12	0	0	0	0	0	
+Leaf Rubisco content per leaf area	504	0	0	1	1	0	0	0	0	
+Leaf sheath area	3465	0	0	2	0	0	0	0	0	
+Leaf sheath area per sheath dry mass (sheath SLA)	3467	0	0	2	0	0	0	0	0	
+Leaf sheath dry mass	3466	0	0	2	0	0	0	0	0	
+Leaf surface pattern type	979	0	0	20	0	0	0	0	0	
+Leaf surface waxiness	980	0	0	10	0	0	0	0	0	
+Litter nitrogen (N) content per litter dry mass	70	0	0	3	0	0	0	0	2	
+Litter phosphorus (P) content per litter dry mass	71	0	0	2	0	0	0	0	1	
+Mycorrhiza status and microbial interactions	3370	0	0	1	0	0	0	0	0	
+Plant biomass and allometry: Seed number per plant	131	0	0	1	1	1	0	4	5	
+Plant containing salt glands	1023	0	0	1	0	0	0	0	0	
+Plant functional type (PFT)	197	0	0	16	0	14	0	11	1	
+Plant species use for bioremediation	3371	0	0	1	0	0	0	0	0	
+Root debris decomposition rate constant 	1519	0	0	1	0	0	0	0	0	
+Root decomposition: fraction of nitrogen (N) remaining	3149	0	0	4	0	0	0	0	0	
+Root decomposition: fraction of root dry mass not decomposed to original root dry mass	1367	0	0	4	0	0	0	0	0	
+Root dry mass turnover rate	1418	0	0	1	0	0	0	0	0	
+Root nitrogen/phosphorus (N/P) ratio	687	0	0	2	0	0	0	1	0	
+Root ratio of lignin to nitrogen (N)	1356	0	0	1	0	0	0	0	0	
+Seed number per inflorescence (total, fertile, infertile)	1104	0	0	2	0	2	0	1	0	
+Seed number per stem	1106	0	0	1	0	0	0	0	11	
+Seed thickness	238	0	0	1	6	3	0	4	0	
+Seed viability	1109	0	0	2	1	0	0	0	1	
+Species occurrence range: ecological occurrence range	822	0	0	1	0	0	0	0	0	
+Species soil moisture requirements	1144	0	0	4	1	1	0	1	2	
+Species tolerance to planting density	601	0	0	2	0	2	0	0	0	
+Stem color	1176	0	0	7	0	0	0	0	0	
+Stem emergences (pubescence, hairs, spines, thorns)	1256	0	0	31	0	0	0	0	0	
+Stem form (stem cross-sectional type)	1182	0	0	24	0	0	0	0	0	
+Stem image	2820	0	0	7	0	0	0	0	0	
+Stem latex production	1184	0	0	3	0	0	0	0	0	
+Stem longevity	1187	0	0	2	0	0	0	1	1	
+Stem presence	2819	0	0	7	0	0	0	0	0	
+Stem surface patterning	1189	0	0	14	0	0	0	0	0	
+Stomata conductance per leaf dry mass	106	0	0	1	10	0	0	0	0	
+Stomata density	63	0	0	4	0	0	0	0	5	
+Wood (sapwood) water content	1097	0	0	4	0	0	0	0	0	
+Leaf area per leaf fresh mass (specific leaf area (SLA or 1/LMA) based on leaf fresh mass)	125	0	0	0	11	0	0	1	0	
+Leaf area per leaf perimeter	3037	0	0	0	5	0	0	0	0	
+Leaf area per plant	410	0	0	0	3	0	0	24	0	
+Leaf herbivore species	935	0	0	0	28	0	0	0	0	
+Leaf nitrate (NO3-) content per leaf dry mass	661	0	0	0	7	0	0	0	0	
+Leaf nitrogen (N) content organic per leaf dry mass	660	0	0	0	8	0	0	0	0	
+Leaf nitrogen (N) uptake rate	3046	0	0	0	3	0	0	0	0	
+Leaf non-structural carbon (TNC) content per leaf dry mass 	507	0	0	0	7	0	0	0	0	
+Leaf photosynthesis carboxylation capacity (Vcmax) per leaf dry mass (Farquhar model)	185	0	0	0	1	0	0	0	0	
+Leaf photosynthesis CO2 compensation point	479	0	0	0	1	0	0	0	0	
+Leaf photosynthesis electron transport capacity (Jmax) per leaf dry mass (Farquhar model)	270	0	0	0	1	0	0	0	0	
+Leaf photosynthesis oxygenation capacity (Farquhar model)	666	0	0	0	1	0	0	0	0	
+Leaf photosynthesis rate per leaf nitrogen (N) content (photosynthetic nitrogen use efficiency, PNUE	135	0	0	0	1	0	0	0	0	
+Leaf respiration rate in light per dry mass	663	0	0	0	1	0	0	0	0	
+Leaf respiration rate in light per leaf area	512	0	0	0	1	0	0	0	0	
+Leaf respiration rate in light per leaf respiration rate in the dark	664	0	0	0	1	0	0	0	0	
+Leaf respiration rate in the dark minus respiration in light, mass based	665	0	0	0	1	0	0	0	0	
+Leaf respiration rate in the dark per leaf area	54	0	0	0	14	0	0	2	0	
+Leaf respiration rate in the dark per leaf dry mass	41	0	0	0	13	0	0	3	0	
+Leaf secondary compound types	976	0	0	0	22	0	0	0	0	
+Leaf starch content per leaf dry mass	505	0	0	0	7	0	0	0	0	
+Leaf sugar content per leaf dry mass	506	0	0	0	10	0	0	0	0	
+Leaf width per leaf length	3038	0	0	0	3	0	0	0	0	
+Plant biomass and allometry: Leaf dry mass production rate per plant	3040	0	0	0	5	0	0	0	0	
+Plant biomass and allometry: Leaf number production rate per plant	3036	0	0	0	5	0	0	0	0	
+Plant biomass and allometry: Reproductive dry mass per plant	130	0	0	0	5	0	0	0	0	
+Plant biomass and allometry: Root surface area per plant	3032	0	0	0	5	0	0	0	0	
+Plant biomass and allometry: Stem dry mass per plant	128	0	0	0	5	0	0	0	0	
+Plant biomass and allometry: Stem dry mass per plant dry mass per plant	136	0	0	0	3	0	0	0	0	
+Plant biomass and allometry: Wood dry mass per plant dry mass	478	0	0	0	5	0	0	0	0	
+Plant height: erectness ratio of not elongated to elongated height	3039	0	0	0	4	0	0	0	0	
+Root dry mass per soil layer	3029	0	0	0	20	0	0	0	0	
+Root evenness of dry mass vertical distribution	3033	0	0	0	5	0	0	0	0	
+Root evenness of length vertical distribution	3035	0	0	0	5	0	0	0	0	
+Root evenness of surface area vertical distribution	3034	0	0	0	5	0	0	0	0	
+Root length	1079	0	0	0	5	0	0	0	0	
+Root length per soil layer	3030	0	0	0	20	0	0	0	0	
+Root nitrogen (N) uptake rate	462	0	0	0	2	0	0	0	0	
+Root respiration rate per root dry mass	514	0	0	0	5	0	0	0	0	
+Root sugar content per root dry mass	662	0	0	0	3	0	0	0	0	
+Root surface area per soil layer	3031	0	0	0	20	0	0	0	0	
+Seed area	1099	0	0	0	5	0	0	0	0	
+Seed curvature	3041	0	0	0	5	0	0	0	0	
+Seed projected perimeter	3045	0	0	0	5	0	0	0	0	
+Seed surface area	3043	0	0	0	25	0	0	0	0	
+Seed volume	3042	0	0	0	20	0	0	0	0	
+Seed width to length ratio	3044	0	0	0	5	0	0	0	0	
+Shoot copper (Cu) content per shoot dry mass	1117	0	0	0	4	0	0	0	0	
+Shoot iron (Fe) content per shoot dry mass	705	0	0	0	4	0	0	0	0	
+Shoot manganese (Mn) content per shoot dry mass	703	0	0	0	4	0	0	0	0	
+Shoot nickel (Ni) content per shoot dry mass	1124	0	0	0	4	0	0	0	0	
+Shoot sulfur (S) content per shoot dry mass	1128	0	0	0	4	0	0	0	0	
+Shoot zinc (Zn) content per shoot dry mass	1129	0	0	0	4	0	0	0	0	
+Species genotype: chromosome number gametophytic	3097	0	0	0	3	0	0	0	0	
+Stem carbon (C) content per stem dry mass	407	0	0	0	3	0	0	0	0	
+Stem diameter	21	0	0	0	5	7	0	1	0	
+Stem dry mass per stem fresh mass (stem dry matter content, StDMC)	1181	0	0	0	5	0	0	0	0	
+Bark crystals	831	0	0	0	0	5	0	1	0	
+Bark surface structure, texture, age	838	0	0	0	0	3	0	0	0	
+Coarse woody debris (CWD): decomposition rate	869	0	0	0	0	1	0	0	0	
+Leaf dry mass loss during leaf senescence	933	0	0	0	0	1	0	0	0	
+Leaf length excluding petiole (leaf lamina length)	940	0	0	0	0	5	0	0	0	
+Leaf petiole length	143	0	0	0	0	5	0	3	0	
+Leaf volatile organic carbon (VOC): monoterpene emission rate per leaf area	966	0	0	0	0	1	0	0	0	
+Leaf volatile organic carbon (VOC): monoterpene emission rate per leaf dry mass	967	0	0	0	0	1	0	0	0	
+Plant biomass and allometry: Stems per plant	3012	0	0	0	0	5	0	0	0	
+Plant height growth relative to diameter growth	1015	0	0	0	0	1	0	0	0	
+Root porosity (fraction of root aerenchyma air space)	246	0	0	0	0	1	0	8	0	
+Seed heteromorphy	234	0	0	0	0	1	0	0	0	
+Species potential allelopathy	3409	0	0	0	0	1	0	0	0	
+Species tolerance to nitrogen inputs	1039	0	0	0	0	1	0	0	0	
+Species tolerance to temperature	1041	0	0	0	0	2	0	0	0	
+Stem conduit cross-sectional area (vessels and tracheids)	170	0	0	0	0	1	0	0	0	
+Stem conduit density (vessels and tracheids)	169	0	0	0	0	1	0	0	0	
+Stem conduit lumen cross-sectional area (vessels and tracheids) per stem sapwood cross-sectional are	172	0	0	0	0	1	0	0	0	
+Wood conduit pit membrane thickness	1215	0	0	0	0	2	0	0	0	
+Wood fibre types	286	0	0	0	0	2	0	0	0	
+Wood intervessel or intertracheid cell wall thickness	1225	0	0	0	0	1	0	0	0	
+Wood vessel grouping	276	0	0	0	0	2	0	0	0	
+Wood vessel-ray pits	1244	0	0	0	0	1	0	0	0	
+Wood vessels surrounded by tracheids (vasicentric tracheids)	1205	0	0	0	0	2	0	0	0	
+Wood vestures presence	1210	0	0	0	0	2	0	0	0	
+Xylem hydraulic vulnerability, xylem cavitation vulnerability, embolism vulnerability, (P20, P50, P8	719	0	0	0	0	16	0	0	0	
+Crown (canopy) length: diameter along the longest axis	324	0	0	0	0	0	0	1	0	
+Crown (canopy) width	325	0	0	0	0	0	0	1	1	
+Leaf anthocyanin content per leaf area	810	0	0	0	0	0	0	1	0	
+Leaf anthocyanin content per leaf dry mass	731	0	0	0	0	0	0	1	0	
+Leaf area index (LAI) of a single plant	926	0	0	0	0	0	0	1	0	
+Leaf carotenoid content per leaf area	491	0	0	0	0	0	0	1	0	
+Leaf carotenoid content per leaf dry mass	809	0	0	0	0	0	0	1	0	
+Leaf chlorophyll content per leaf area	413	0	0	0	0	0	0	1	0	
+Leaf water storage capacity (WSC)	572	0	0	0	0	0	0	1	0	
+Plant biomass and allometry: Supportive structure (stem, twig, leaf petiole, leaf sheeth) dry mass p	3059	0	0	0	0	0	0	26	0	
+Plant canopy anthocyanin content per ground area (anthocyanin mass per leaf area * LAI)	3399	0	0	0	0	0	0	1	0	
+Plant canopy carotenoid content per ground area (carotenoid mass per leaf area * LAI)	3398	0	0	0	0	0	0	1	0	
+Plant canopy chlorophyll content per ground area (chlorophyll mass per leaf area * LAI)	3397	0	0	0	0	0	0	1	0	
+Plant canopy dry mass per ground area (leaf mass per area * LAI)	3395	0	0	0	0	0	0	1	0	
+Plant canopy water content per ground area (leaf water content * LAI)	3396	0	0	0	0	0	0	1	0	
+Pollen diameter	1042	0	0	0	0	0	0	3	1	
+Seed number per flower	1103	0	0	0	0	0	0	4	0	
+Seeding frequency	359	0	0	0	0	0	0	1	0	
+Wood crystal types	304	0	0	0	0	0	0	1	0	
+Wood fiber tension wood present	1218	0	0	0	0	0	0	1	0	
+Wood fibers absent in the center, present at the periphery of the stem	1222	0	0	0	0	0	0	1	0	
+Wood vessel tyloses with thin walls	1241	0	0	0	0	0	0	1	0	
