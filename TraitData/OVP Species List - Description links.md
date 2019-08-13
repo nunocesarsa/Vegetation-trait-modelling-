@@ -13,6 +13,13 @@
   - https://onlinelibrary.wiley.com/doi/full/10.1111/jvs.12534 (very on topic as well, appendix has data)
  
 #### *trifolium repens*
+  - https://en.wikipedia.org/wiki/Trifolium_repens
+  - https://nph.onlinelibrary.wiley.com/doi/full/10.1111/j.1469-8137.2006.01885.x
+  - https://onlinelibrary.wiley.com/doi/pdf/10.1046/j.1365-3040.2001.00749.x
+  - https://www.frontiersin.org/articles/10.3389/fpls.2016.00538/full
+  
+ ### continue here
+ 
 -trifolium pratense
 -cirsium arvense
 -cirsium vulgare
