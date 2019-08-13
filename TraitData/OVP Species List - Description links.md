@@ -2,13 +2,15 @@
 
 ## Grassland:
 
-#### lolium perenne
+#### *Lolium perenne*
   - https://www.cabi.org/isc/datasheet/31166#todistributionTable
   - https://dergipark.org.tr/download/article-file/158606
   - https://link.springer.com/article/10.1007%2Fs10681-018-2307-z
   - https://onlinelibrary.wiley.com/doi/full/10.1046/j.1365-2494.1998.00152.x
--poa trivialis
-  - 
+#### *Poa trivialis*
+  - https://en.wikipedia.org/wiki/Poa_trivialis
+  - https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1654-1103.2005.tb02350.x (Very on topic)
+  - https://onlinelibrary.wiley.com/doi/full/10.1111/jvs.12534 (very on topic as well, appendix has data)
 -trifolium repens
 -trifolium pratense
 -cirsium arvense
