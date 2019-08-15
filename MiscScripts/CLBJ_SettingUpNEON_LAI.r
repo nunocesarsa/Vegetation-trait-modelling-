@@ -62,5 +62,6 @@ for (i in 2:length(path2LAI_agg)){
 plot(temp.rst)
 writeRaster(temp.rst,
             filename = paste(out.fld,
-                             "Final_20m_NEON_D11_CLBJ.tif"),
+                             "Final_20m_NEON_D11_CLBJ_LAI.tif",sep=""),
             options=c("COMPRESS=LZW"),overwrite=TRUE)
+
