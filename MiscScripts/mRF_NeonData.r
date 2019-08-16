@@ -16,6 +16,13 @@ library(randomForest)
 #investigate
 library(randomForestSRC)
 
+#GIS/RS
+library(maptools)
+library(rgeos)
+library(rgdal)
+library(raster)
+library(sp)
+
 #N Structure parameter
 #Cab chlorophyll content
 #Car Carotenoid content
@@ -43,7 +50,7 @@ library(randomForestSRC)
 param.maxmin <- matrix(c(1.5, 1.9, #leaf layers or leaf structure
                          15,55, #Cab
                          0,15, #Car
-                         0.01,0.02, #Cw
+                         0.005,0.02, #Cw #original it was from [0.01 to 0.02] but i suspect saturation
                          0.005,0.01, #Cm
                          0.1,8,#LAI
                          0.05,0.1), #hotstop
@@ -233,3 +240,145 @@ names(test.df)
 library(corrplot)
 M<-cor(test.df)
 corrplot(M, type="upper")
+
+
+##recreate the reflectances to see if we can calculate the indices
+new.param.list <- as.data.frame(out.mRF.test.pred )
+head(new.param.list)
+new.param.list$TypeLidf="Erectophile"
+new.param.list$tts=sun_zenith #fixed zenith, azimuth and rel azimuth
+new.param.list$tto=obs_zenith
+new.param.list$psi=rel_azimut
+new.param.list$psoil=1  #psoil - fixed this as the average that i saw from the paper [0.5 to 1.5]
+new.param.list$lidfa=65
+head(new.param.list)
+pred.prosail.scplib <- PROSAIL(parameterList = new.param.list)
+
+par(mfrow=c(1,1))
+plot(pred.prosail.scplib)
+
+#now we create a dataframe to receive everything
+pred.spectra <- as.data.frame(spectra(pred.prosail.scplib))
+names(pred.spectra) <- paste("band_",pred.prosail.scplib@wavelength,sep="")
+names(pred.spectra)
+
+#now we calculate the indices
+pred.indices <- data.frame(linenr=seq(1:nrow(pred.spectra)))
+#sources: https://www.harrisgeospatial.com/docs/CanopyWaterContent.html
+pred.indices$MSI  <- pred.spectra$band_1599/pred.spectra$band_819
+pred.indices$NDII <- (pred.spectra$band_819-pred.spectra$band_1649)/(pred.spectra$band_819+pred.spectra$band_1649)
+pred.indices$NDWI <- (pred.spectra$band_857-pred.spectra$band_1241)/(pred.spectra$band_857+pred.spectra$band_1241)
+pred.indices$NDMI <- (pred.spectra$band_860-(pred.spectra$band_1640-pred.spectra$band_2130))/(pred.spectra$band_860+(pred.spectra$band_1640-pred.spectra$band_2130))
+pred.indices$WBI  <- pred.spectra$band_970/pred.spectra$band_900
+
+#canopy water content indices
+par(mfrow=c(3,2))
+plot(test.df$NEON_msi ,pred.indices$MSI,xlab="NEON data: MSI",ylab="Predicted MSI")
+plot(test.df$NEON_ndii,pred.indices$NDII,xlab="NEON data: ndii",ylab="Predicted NDII")
+plot(test.df$NEON_ndwi,pred.indices$NDWI,xlab="NEON data: ndwi",ylab="Predicted NDWI")
+plot(test.df$NEON_ndmi,pred.indices$NDMI,xlab="NEON data: ndmi",ylab="Predicted NDMI")
+plot(test.df$NEON_wbi ,pred.indices$WBI,xlab="NEON data: wbi",ylab="PredictedWBI")
+
+
+#can it be an effect of outliers?
+par(mfrow=c(1,1))
+
+ncol(test.df)
+par(mfrow=c(3,3))
+for (i in 8:ncol(test.df)){
+  boxplot(test.df[,i])
+}
+
+
+test.df.redux <- test.df
+for (i in 8:ncol(test.df)){
+  outlier.redux <- boxplot(test.df.redux[,i], plot=FALSE)$out
+  print(length(outlier.redux))
+  
+  if (length(outlier.redux)!=0){
+    test.df.redux<-test.df.redux[-which(test.df.redux[,i] %in% outlier.redux),]
+  }
+  boxplot(test.df.redux[,i],main=names(test.df.redux)[i])
+}
+
+#so now, i removed all the outliers from the validation data. How many points i have left?
+nrow(test.df.redux)
+#still over 4k, lets repeat the previous
+par(mfrow=c(1,1))
+plot(test.df.redux$NEON_lai,test.df.redux$mRF_LAI,xlab="NEON data (no outliers)",ylab="Prediction (mRF): LAI")
+
+#canopy water content indices
+par(mfrow=c(3,2))
+
+plot(test.df.redux$NEON_msi ,test.df.redux$mRF_Cw,xlab="NEON data: MSI",ylab="Prediction (mRF): Cw")
+plot(test.df.redux$NEON_ndii,test.df.redux$mRF_Cw,xlab="NEON data: ndii",ylab="Prediction (mRF): Cw")
+plot(test.df.redux$NEON_ndwi,test.df.redux$mRF_Cw,xlab="NEON data: ndwi",ylab="Prediction (mRF): Cw")
+plot(test.df.redux$NEON_ndmi,test.df.redux$mRF_Cw,xlab="NEON data: ndmi",ylab="Prediction (mRF): Cw")
+plot(test.df.redux$NEON_wbi ,test.df.redux$mRF_Cw,xlab="NEON data: wbi",ylab="Prediction (mRF): Cw")
+
+
+##recreate the reflectances to see if we can calculate the indices - redux dataset
+names(test.df.redux)
+new.param.list.redux <- test.df.redux[,1:7]
+head(new.param.list.redux)
+names(new.param.list.redux) <- names(as.data.frame(out.mRF.test.pred ))
+head(new.param.list.redux)
+
+new.param.list.redux$TypeLidf="Erectophile"
+new.param.list.redux$tts=sun_zenith #fixed zenith, azimuth and rel azimuth
+new.param.list.redux$tto=obs_zenith
+new.param.list.redux$psi=rel_azimut
+new.param.list.redux$psoil=1  #psoil - fixed this as the average that i saw from the paper [0.5 to 1.5]
+new.param.list.redux$lidfa=65
+head(new.param.list.redux)
+pred.prosail.scplib.redux <- PROSAIL(parameterList = new.param.list.redux)
+
+
+par(mfrow=c(1,1))
+plot(pred.prosail.scplib.redux)
+
+#now we create a dataframe to receive everything
+pred.spectra.redux <- as.data.frame(spectra(pred.prosail.scplib.redux))
+names(pred.spectra.redux) <- paste("band_",pred.prosail.scplib.redux@wavelength,sep="")
+names(pred.spectra.redux)
+
+#now we calculate the indices
+pred.indices.redux <- data.frame(linenr=seq(1:nrow(pred.spectra.redux)))
+#sources: https://www.harrisgeospatial.com/docs/CanopyWaterContent.html
+pred.indices.redux$MSI  <- pred.spectra.redux$band_1599/pred.spectra.redux$band_819
+pred.indices.redux$NDII <- (pred.spectra.redux$band_819-pred.spectra.redux$band_1649)/(pred.spectra.redux$band_819+pred.spectra.redux$band_1649)
+pred.indices.redux$NDWI <- (pred.spectra.redux$band_857-pred.spectra.redux$band_1241)/(pred.spectra.redux$band_857+pred.spectra.redux$band_1241)
+pred.indices.redux$NDMI <- (pred.spectra.redux$band_860-(pred.spectra.redux$band_1640-pred.spectra.redux$band_2130))/(pred.spectra.redux$band_860+(pred.spectra.redux$band_1640-pred.spectra.redux$band_2130))
+pred.indices.redux$WBI  <- pred.spectra.redux$band_970/pred.spectra.redux$band_900
+
+#canopy water content indices
+par(mfrow=c(3,2))
+plot(test.df.redux$NEON_msi ,pred.indices.redux$MSI,xlab="NEON data: MSI",ylab="Predicted MSI")
+plot(test.df.redux$NEON_ndii,pred.indices.redux$NDII,xlab="NEON data: ndii",ylab="Predicted NDII")
+plot(test.df.redux$NEON_ndwi,pred.indices.redux$NDWI,xlab="NEON data: ndwi",ylab="Predicted NDWI")
+plot(test.df.redux$NEON_ndmi,pred.indices.redux$NDMI,xlab="NEON data: ndmi",ylab="Predicted NDMI")
+plot(test.df.redux$NEON_wbi ,pred.indices.redux$WBI,xlab="NEON data: wbi",ylab="PredictedWBI")
+
+#test r squared
+summary(lm(pred.indices.redux$MSI~test.df.redux$NEON_msi))$r.squared
+names(test.df.redux)
+names(pred.indices.redux)
+redux.indices.table <- cbind(test.df.redux[,12:16],pred.indices.redux[,c(2:6)])
+head(redux.indices.table)
+
+library(corrplot)
+par(mfrow=c(1,1))
+M.indices.redux <-cor(redux.indices.table)
+corrplot(M.indices.redux, type="upper")
+
+#lets bring the unreduced
+nrow(test.df)
+nrow(pred.indices)
+indices.table <- cbind(test.df[,c(12:16)],pred.indices[,c(2:6)])
+names(indices.table)
+M.indices <-cor(indices.table)
+corrplot(M.indices, type="upper")
+
+par(mfrow=c(1,2))
+corrplot(M.indices, type="upper",title="With outliers",mar=c(0,0,1,0),addCoef.col = "black",diag=FALSE)
+corrplot(M.indices.redux, type="upper",main="Without outliers",mar=c(0,0,1,0),addCoef.col = "black",diag=FALSE)
