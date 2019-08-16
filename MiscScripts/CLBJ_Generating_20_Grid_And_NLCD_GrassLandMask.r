@@ -80,3 +80,38 @@ head(row.index.sp)
 NLCD_grass.pts.shp_SAMPLE <- NLCD_grass.pts.shp[row.index.sp,]
 writePointsShape(NLCD_grass.pts.shp_SAMPLE,
                  "D:/NEON_Data/CLBJ/NLCD_subsection/NLCD_grass_AOI_pts_5kSample.shp")
+
+
+#generating a random sample in a smaller area (ensure all Data is available) ------------------
+
+#load the raster of grassland
+NLCD_grass.large <- raster("D:/NEON_Data/CLBJ/NLCD_subsection/NLCD_grass_AOI.tif")
+AOI_small.shp <- readShapePoly("D:/NEON_Data/CLBJ/qgis_shape_bound/qgis_shape_bound_small_Area_diss.shp")
+AOI_small.rst <- rasterize(AOI_small.shp,NLCD_grass.large)
+
+plot(AOI_small.rst)
+
+#now we crop the grass
+library(raster)
+NLCD_grass.small <- raster::mask(x=NLCD_grass.large,
+                         mask=AOI_small.rst)
+
+writeRaster(NLCD_grass.small,
+            "D:/NEON_Data/CLBJ/NLCD_subsection/NLCD_grass_AOI_small.tif",
+            options=c("COMPRESS=LZW"),
+            overwrite=TRUE)
+
+#now lets generate the sample points 
+NLCD_grass.small.pts.shp <- rasterToPoints(NLCD_grass.small,spatial = T)
+
+
+
+#generting a random sample of points (lets make it 5000)
+row.index <- c(1:nrow(NLCD_grass.small.pts.shp))
+head(row.index)
+row.index.sp <- sample(row.index,5000)
+head(row.index.sp)
+
+NLCD_grass.small.pts.shp_SAMPLE <- NLCD_grass.small.pts.shp[row.index.sp,]
+writePointsShape(NLCD_grass.pts.shp_SAMPLE,
+                 "D:/NEON_Data/CLBJ/NLCD_subsection/NLCD_grass_AOI_small_pts_5kSample.shp")
