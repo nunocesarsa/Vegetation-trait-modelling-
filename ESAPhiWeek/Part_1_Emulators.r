@@ -31,6 +31,10 @@ library(nlme)
 #for std y column
 library(matrixStats)
 
+#for raster stuff
+library(raster)
+library(maptools)
+
 par(mfrow=c(1,1))
 gc()
 
@@ -237,24 +241,145 @@ for(i in 1:ncol(param.list.unc)){
 #talk with mitra - can we use the CI of the linear model as an estimate of uncertainity
 
 
-names(unc.df)
-test.lm <- lm(pred_Cab~Cab,data=unc.df)
-par(mfrow=c(1,1))
-plot(param.list.unc[,1],
-     mv.pred.mRF.unc[,1],
-     xlab=names(unc.df)[1],
-     ylab=names(mv.pred.mRF.unc)[1])
+#using THE CONFIDENCE INTERVAL to create a raster prediction and its uncertainities
 
-plot(test.lm)
+#first we generate 100x100x5 object where each ith z dimension is one of the parameters
+set.seed(5000)
 
-#this works to produce a confidence interval but its not that trustworthy.. for me..
-test.lm <- lm(pred_Cab~Cab,data=unc.df)
-newdata=data.frame(Cab=c(-10,20,30,40,50,70,100,200,300,1000))
-predict(test.lm, 
-        newdata, 
-        interval="prediction") 
+nl <- 25
+nc <- 25
+m.Cab <- matrix(rtnorm(nl*nc,mean=55,sd=20, lower=param.maxmin[1,1],upper=param.maxmin[1,2]),nl,nc)
+m.Car <- matrix(rtnorm(nl*nc,mean=12.5,sd=7,lower=param.maxmin[2,1],upper=param.maxmin[2,2]),nl,nc)
+m.Cw  <- matrix(rtnorm(nl*nc,mean=0.013,sd=0.005,lower=param.maxmin[3,1],upper=param.maxmin[3,2]),nl,nc)
+m.Cm  <- matrix(rtnorm(nl*nc,mean=0.013,sd=0.005,lower=param.maxmin[4,1],upper=param.maxmin[4,2]),nl,nc)
+m.LAI <- matrix(rtnorm(nl*nc,mean=4,sd=2.5,lower=param.maxmin[5,1],upper=param.maxmin[5,2]),nl,nc)
 
-cc <- predict(test.lm, 
-              newdata, 
-              interval="prediction") 
-cc[,3]-cc[,2]
+#and a place to receive the predictions
+m.pred.Cab <- m.Cab*0
+m.pred.Car <- m.Cab*0
+m.pred.Cw  <- m.Cab*0
+m.pred.Cm  <- m.Cab*0
+m.pred.LAI <- m.Cab*0
+#and a place to receive uncertanities
+m.unc.Cab <- m.Cab*0
+m.unc.Car <- m.Cab*0
+m.unc.Cw  <- m.Cab*0
+m.unc.Cm  <- m.Cab*0
+m.unc.LAI <- m.Cab*0
+
+#then we create a linear model for each simulated prosail vs mRF (simulated)
+lm.Cab <- lm(pred_Cab~Cab,data=unc.df)
+lm.Car <- lm(pred_Car~Car,data=unc.df)
+lm.Cw  <- lm(pred_Cw~ Cw, data=unc.df)
+lm.Cm  <- lm(pred_Cm~ Cm, data=unc.df)
+lm.LAI <- lm(pred_LAI~LAI,data=unc.df)
+
+#once we have these matrices, we can run prosail on each col line.
+for (i in 1:ncol(m.Cab)){
+  
+  for (j in 1:nrow(m.Cab)){
+    print(paste("Predicting: col",i,"line",j ))
+    
+    m.param.list <- data.frame(Cab=m.Cab[j,i],Car=m.Car[j,i],
+                               Cw=m.Cw[j,i],Cm=m.Cm[j,i],
+                               LAI=m.LAI[j,i])
+    
+    #generating a test dataset prosail output
+    m.spclib.unc <- PROSAIL(parameterList = m.param.list)
+    m.s2.spclib.unc <- spectralResampling(m.spclib.unc,
+                                            "Sentinel2",response_function = TRUE)
+    #removing the bands as before
+    #b 2,3,4,5,6,7,8a,11,12
+    m.s2.spc.sel.unc <- m.s2.spclib.unc[,c(2,3,4,5,6,7,9,12,13)]
+    
+    m.df <- cbind(m.param.list,as.data.frame(m.s2.spc.sel.unc))
+    
+    names(m.df) <- c(names(m.df)[1:5],
+                       "B02","B03","B04",
+                       "B05","B06","B07",
+                       "B8A","B11","B12")
+    
+    m.pred.mRF.unc <- predict(full.mRF,
+                              newdata=m.df)
+    
+    m.mv.pred.mRF.unc <- as.data.frame(get.mv.predicted(m.pred.mRF.unc))
+    
+    m.pred.Cab[j,i] <- m.mv.pred.mRF.unc[1,1]
+    m.pred.Car[j,i] <- m.mv.pred.mRF.unc[1,2]
+    m.pred.Cw[j,i]  <- m.mv.pred.mRF.unc[1,3]
+    m.pred.Cm[j,i]  <- m.mv.pred.mRF.unc[1,4]
+    m.pred.LAI[j,i] <- m.mv.pred.mRF.unc[1,5]
+    
+    #now we hve the predictions and the original values, lets see
+    
+    temp.test.Cab <- predict(lm.Cab,newdata=data.frame(Cab=m.pred.Cab[j,i]),interval="prediction")
+    temp.test.Car <- predict(lm.Car,newdata=data.frame(Car=m.pred.Car[j,i]),interval="prediction")
+    temp.test.Cw  <- predict(lm.Cw, newdata=data.frame(Cw=m.pred.Cw[j,i  ]),interval="prediction")
+    temp.test.Cm  <- predict(lm.Cm, newdata=data.frame(Cm=m.pred.Cm[j,i  ]),interval="prediction")
+    temp.test.LAI <- predict(lm.LAI,newdata=data.frame(LAI=m.pred.LAI[j,i]),interval="prediction")
+    
+    m.unc.Cab[j,i] <- temp.test.Cab[,3]-temp.test.Cab[,2]
+    m.unc.Car[j,i] <- temp.test.Car[,3]-temp.test.Car[,2]
+    m.unc.Cw[j,i]  <- temp.test.Cw[,3] -temp.test.Cw[,2 ]
+    m.unc.Cm[j,i]  <- temp.test.Cm[,3] -temp.test.Cm[,2 ]
+    m.unc.LAI[j,i] <- temp.test.LAI[,3]-temp.test.LAI[,2]
+    
+
+     
+  }
+}
+
+#once all the predictions are done, lets create an uncertainity rst using our original full model vs its training
+
+
+
+temp.cab.rst <- raster(m.Cab)
+temp.cab.pred.rst <- raster(m.pred.Cab)
+temp.cab.unc.rst <- raster(m.unc.Cab)
+par(mfrow=c(2,2)) #THIS IS A GOOD IDEA TO VISUALIZE THE DIFFERENCES AND RELATE THAT TO THE PARAMETERS
+plot(temp.cab.rst,main="Cab - original")
+plot(temp.cab.pred.rst, main="Cab - predicted")
+plot(abs(temp.cab.rst-temp.cab.pred.rst),main="Absolute difference")
+plot(temp.cab.unc.rst,main="CI of the prediction")
+#plot((temp.cab.unc.rst-cellStats(temp.cab.unc.rst,min))/
+       #(cellStats(temp.cab.unc.rst,max)-cellStats(temp.cab.unc.rst,min)))
+
+temp.Car.rst <- raster(m.Car)
+temp.Car.pred.rst <- raster(m.pred.Car)
+temp.Car.unc.rst <- raster(m.unc.Car)
+par(mfrow=c(2,2)) #THIS IS A GOOD IDEA TO VISUALIZE THE DIFFERENCES AND RELATE THAT TO THE PARAMETERS
+plot(temp.Car.rst,main="Car - original")
+plot(temp.Car.pred.rst, main="Car - predicted")
+plot(abs(temp.Car.rst-temp.Car.pred.rst),main="Absolute difference")
+plot(temp.Car.unc.rst,main="CI of the prediction")
+
+temp.Cw.rst <- raster(m.Cw)
+temp.Cw.pred.rst <- raster(m.pred.Cw)
+temp.Cw.unc.rst <- raster(m.unc.Cw)
+par(mfrow=c(2,2)) #THIS IS A GOOD IDEA TO VISUALIZE THE DIFFERENCES AND RELATE THAT TO THE PARAMETERS
+plot(temp.Cw.rst,main="Cw - original")
+plot(temp.Cw.pred.rst, main="Cw - predicted")
+plot(abs(temp.Cw.rst-temp.Cw.pred.rst),main="Absolute difference")
+plot(temp.Cw.unc.rst,main="CI of the prediction")
+
+temp.Cm.rst <- raster(m.Cm)
+temp.Cm.pred.rst <- raster(m.pred.Cm)
+temp.Cm.unc.rst <- raster(m.unc.Cm)
+par(mfrow=c(2,2)) #THIS IS A GOOD IDEA TO VISUALIZE THE DIFFERENCES AND RELATE THAT TO THE PARAMETERS
+plot(temp.Cm.rst,main="Cm - original")
+plot(temp.Cm.pred.rst, main="Cm - predicted")
+plot(abs(temp.Cm.rst-temp.Cm.pred.rst),main="Absolute difference")
+plot(temp.Cm.unc.rst,main="CI of the prediction")
+
+
+temp.LAI.rst <- raster(m.LAI)
+temp.LAI.pred.rst <- raster(m.pred.LAI)
+temp.LAI.unc.rst <- raster(m.unc.LAI)
+par(mfrow=c(2,2)) #THIS IS A GOOD IDEA TO VISUALIZE THE DIFFERENCES AND RELATE THAT TO THE PARAMETERS
+plot(temp.LAI.rst,main="LAI - original")
+plot(temp.LAI.pred.rst, main="LAI - predicted")
+plot(abs(temp.LAI.rst-temp.LAI.pred.rst),main="Absolute difference")
+plot(temp.LAI.unc.rst,main="CI of the prediction")
+
+#STOP FOR NOW
+
