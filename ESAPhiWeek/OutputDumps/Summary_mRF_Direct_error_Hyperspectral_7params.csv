@@ -1,0 +1,8 @@
+"","    RunNr","mRF_Grid","   mRF_LHS"
+"","Min.   :   1  ","Mode:logical  ","Min.   :0.003  "
+"","1st Qu.:1751  ","NA's:7000     ","1st Qu.:0.017  "
+"","Median :3500  ",NA,"Median :0.026  "
+"","Mean   :3500  ",NA,"Mean   :0.034  "
+"","3rd Qu.:5250  ",NA,"3rd Qu.:0.043  "
+"","Max.   :7000  ",NA,"Max.   :0.205  "
+"",NA,NA,"NA's   :3211  "
