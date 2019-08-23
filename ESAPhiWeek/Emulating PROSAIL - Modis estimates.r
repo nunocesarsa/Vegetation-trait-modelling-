@@ -81,7 +81,7 @@ train.param.table <- data.frame(N=train.LHS[,1],
                                 tts = 0,
                                 tto = 30)
 
-valid.param.table <- data.frame(N=train.LHS[,1],
+valid.param.table <- data.frame(N=valid.LHS[,1],
                                 Cab=valid.LHS[,2],
                                 Car=valid.LHS[,3],
                                 Cw=valid.LHS[,4],
