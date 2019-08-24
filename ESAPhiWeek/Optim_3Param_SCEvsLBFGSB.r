@@ -10,13 +10,13 @@ library(MCMCglmm)
 
 #This should help increase the CPU cores used
 library(snowfall)
-library(parallel)
-sfParallel() #should respond 1 cpu
-sfCpus()
-detectCores()
+#library(parallel)
+#sfParallel() #should respond 1 cpu
+#sfCpus()
+#detectCores()
 #lets use always half the CPU core available
-half_cpu_cores <- round(detectCores()/2)
-sfInit(parallel = TRUE, cpus = half_cpu_cores, slaveOutfile = "slave.out",nostart = F)
+#half_cpu_cores <- round(detectCores()/2)
+#sfInit(parallel = TRUE, cpus = half_cpu_cores, slaveOutfile = "slave.out",nostart = F)
 #stopifnot( sfCpus() == 4 )
 #stopifnot( sfParallel() == TRUE )
 #sfStop()
@@ -27,6 +27,7 @@ sfInit(parallel = TRUE, cpus = half_cpu_cores, slaveOutfile = "slave.out",nostar
 setwd("D:/ESAPhiWeek/")
 gc()
 dump.fld <- "./dumps"
+set.seed(1) #ITS IMPORTANT TO DO THIS - ensures you always have the same outputs.. but also implies you also have to run the entire scrippt unless you keep returing the seed to one later
 
 
 
@@ -147,11 +148,8 @@ for( i in 1:nrow(out.df)){
   
 }
 
+#we have trained by optimization, lets try the same but using now mRF approach
 
-
-out.df
-
-warnings()
 out.df.omit <- na.omit(out.df)
 
 par(mfrow=c(1,4))
