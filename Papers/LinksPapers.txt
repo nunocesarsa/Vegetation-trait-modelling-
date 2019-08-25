@@ -1,0 +1,14 @@
+Efficient Emulation of Radiative Transfer Codes Using Gaussian Processes and Application to Land Surface Parameter Inferences
+https://www.mdpi.com/2072-4292/8/2/119/htm
+
+An Emulator Toolbox to Approximate Radiative Transfer Models with Statistical Learning
+https://www.mdpi.com/2072-4292/7/7/9347/htm
+
+Retrieval of Grassland Aboveground Biomass through Inversion of the PROSAIL Model with MODIS Imagery
+https://www.mdpi.com/2072-4292/11/13/1597/htm
+
+Fitted PROSAIL Parameterization of Leaf Inclinations, Water Content and Brown Pigment Content for Winter Wheat and Maize Canopies
+https://www.researchgate.net/publication/333088352_Fitted_PROSAIL_Parameterization_of_Leaf_Inclinations_Water_Content_and_Brown_Pigment_Content_for_Winter_Wheat_and_Maize_Canopies
+
+Inversion of rice canopy chlorophyll content and leaf area index based on coupling of radiative transfer and Bayesian network models
+https://www.researchgate.net/publication/331628440_ISPRS_Journal_of_Photogrammetry_and_Remote_Sensing_Inversion_of_rice_canopy_chlorophyll_content_and_leaf_area_index_based_on_coupling_of_radiative_transfer_and_Bayesian_network_models
