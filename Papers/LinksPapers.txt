@@ -15,3 +15,6 @@ https://www.researchgate.net/publication/331628440_ISPRS_Journal_of_Photogrammet
 
 Comparative analysis of different retrieval methods for mapping grassland leaf area index using airborne imaging spectroscopy
 https://www.sciencedirect.com/science/article/pii/S0303243415000100
+
+Visualizing the ill-posedness of the inversion of a canopy radiative transfer model: A case study for Sentinel-2
+https://www.sciencedirect.com/science/article/pii/S0303243415000355
