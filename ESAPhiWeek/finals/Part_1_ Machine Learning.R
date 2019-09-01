@@ -74,6 +74,16 @@ param.maxmin <- matrix(c(5,100, #Cab
                        #0.05,0.1), #hotstop
                        nrow=5,ncol = 2,byrow = T)
 
+param.maxmin <- matrix(c(#1.5, 1.9, #leaf layers or leaf structure
+  10,80, #Cab
+  5,40, #Car
+  0.01,0.02, #Cw #original it was from [0.01 to 0.02] but i suspect saturation
+  0.01,0.02, #Cm
+  0.5,7),#LAI
+  #0.05,0.1), #hotstop
+  nrow=5,ncol = 2,byrow = T)
+
+
 min.max.Cab <- param.maxmin[1,]
 min.max.Car <- param.maxmin[2,]
 min.max.Cw <- param.maxmin[3,]

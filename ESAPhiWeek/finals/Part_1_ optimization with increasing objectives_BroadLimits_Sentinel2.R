@@ -149,7 +149,7 @@ sam.fun.spclib.5 <- function(list.params,target.spectra=NULL){
   #this fetches new prosail parameters.. if you want to minimize towards an observation, then this, should be the observation
   
   if (is.null(target.spectra)==T){
-    #print("Warning: its minimizing to the default PROSAIL parameters") #uncomment if you want to get a spammy console
+    print("Warning: its minimizing to the default PROSAIL parameters") #uncomment if you want to get a spammy console
     
     target.spectra <- spectralResampling(target.spectra,
                                          "Sentinel2",response_function = TRUE)
@@ -171,6 +171,9 @@ sam.fun.spclib.5 <- function(list.params,target.spectra=NULL){
     #print(prosail.param)
     
     my.spectra <- PROSAIL(parameterList = init.param)
+    my.spectra <- spectralResampling(PROSAIL(parameterList = init.param),
+                                     "Sentinel2",response_function = TRUE)
+    my.spectra <- my.spectra[,c(2,3,4,5,6,7,9,12,13)]
     
     #spectral angle mapper is used here
     spec.dist <- sam(my.spectra,target.spectra)
@@ -300,8 +303,8 @@ for( i in 1:nrow(out.df.3)){
   out.df.3$LBFGSB_Cw[i]  <- LBFGSB.pred$par[2]
   out.df.3$LBFGSB_LAI[i] <- LBFGSB.pred$par[3]
   
-  out.df.3$SCE_iter <- SCEoptim.pred$iterations
-  out.df.3$LBFGSB_fncall <- LBFGSB.pred$counts[[1]]
+  out.df.3$SCE_iter[i] <- SCEoptim.pred$iterations
+  out.df.3$LBFGSB_fncall[i] <- LBFGSB.pred$counts[[1]]
   
 }
 
@@ -351,8 +354,8 @@ for( i in 1:nrow(out.df.4)){
   out.df.4$LBFGSB_LAI[i] <- LBFGSB.pred$par[3]
   out.df.4$LBFGSB_Cm[i] <- LBFGSB.pred$par[4]
   
-  out.df.4$SCE_iter <- SCEoptim.pred$iterations
-  out.df.4$LBFGSB_fncall <- LBFGSB.pred$counts[[1]]
+  out.df.4$SCE_iter[i] <- SCEoptim.pred$iterations
+  out.df.4$LBFGSB_fncall[i] <- LBFGSB.pred$counts[[1]]
   
 }
 
@@ -408,8 +411,8 @@ for( i in 1:nrow(out.df.5)){
   out.df.5$LBFGSB_Cm[i]  <- LBFGSB.pred$par[4]
   out.df.5$LBFGSB_Car[i] <- LBFGSB.pred$par[5]
   
-  out.df.5$SCE_iter <- SCEoptim.pred$iterations
-  out.df.5$LBFGSB_fncall <- LBFGSB.pred$counts[[1]]
+  out.df.5$SCE_iter[i] <- SCEoptim.pred$iterations
+  out.df.5$LBFGSB_fncall[i] <- LBFGSB.pred$counts[[1]]
   
 }
 
