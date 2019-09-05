@@ -90,7 +90,7 @@ param.maxmin.train <- param.maxmin <- matrix(c(#1.5, 1.9, #leaf layers or leaf s
 
 
 #creating a training space
-train.n <- 10000
+train.n <- 3000
 #train.grid <- Grid(param.maxmin,train.n)
 #train.LHS <- Latinhyper(param.maxmin,train.n-nrow(train.grid))
 train.LHS <- Latinhyper(param.maxmin.train,train.n)
@@ -208,29 +208,15 @@ Y.mat <- as.matrix(s2.mRF.train.df[,c(1:5)])
 X.mat <- as.matrix(s2.mRF.train.df[,c(6:14)])
 X.mat.valid <- as.matrix(s2.mRF.valid.df[,c(6:14)])
 
-#lets make all the values between 0 and 1
-range01 <- function(x){(x-min(x))/(max(x)-min(x))}
-range01.c <- function(x,xmin,xmax){(x-xmin)/(xmax-xmin)}
-range01.inv <- function(x,xmin,xmax){(x*(xmax-xmin)+xmin)}
+#let's add some covariates
+X.mat.Cmean <- X.mat - colMeans(X.mat)
+X.mat.valid.Cmean <- X.mat.valid - colMeans(X.mat.valid)
 
-Y.mat.n <- Y.mat
 
-param.maxmin
-head(Y.mat.n)
-Y.mat.n[,1] <- range01.c(Y.mat.n[,1],param.maxmin.train[1,1]-.5,param.maxmin.train[1,2]+.5)
-Y.mat.n[,2] <- range01.c(Y.mat.n[,2],param.maxmin.train[2,1]-.5,param.maxmin.train[2,2]+.5)
-Y.mat.n[,3] <- range01.c(Y.mat.n[,3],param.maxmin.train[3,1]-.005,param.maxmin.train[3,2]+.005)
-Y.mat.n[,4] <- range01.c(Y.mat.n[,4],param.maxmin.train[4,1]-.005,param.maxmin.train[4,2]+.005)
-Y.mat.n[,5] <- range01.c(Y.mat.n[,5],param.maxmin.train[5,1]-.5,param.maxmin.train[5,2]+.5)
-summary(Y.mat.n)
+X.mat.new <- cbind(X.mat,X.mat.Cmean)
+X.mat.valid.new <- cbind(X.mat.valid,X.mat.valid.Cmean)
 
-library(scales)
-X.mat.s <- as.matrix(apply(X.mat,2,rescale))
-X.mat.valid.s <- as.matrix(apply(X.mat.valid,2,rescale))
-
-summary(X.mat.s)
-summary(X.mat.valid.s)
-
+dim(X.mat.new)
 
 #ANN structure and hyperparameters
 net.st <- c(10,6)
@@ -239,7 +225,7 @@ lrates <- 0.005
 epochs <- 500
 optype <- "adam"
 
-ann.3000 <- neuralnetwork(X=X.mat,y=Y.mat,regression=T,
+ann.3000.normal <- neuralnetwork(X=X.mat,y=Y.mat,regression=T,
                             hidden.layers =net.st,
                             loss.type = "squared",
                             activ.functions = act.fn,
@@ -249,8 +235,22 @@ ann.3000 <- neuralnetwork(X=X.mat,y=Y.mat,regression=T,
                             optim.type = optype)
 
 
+#nest ANN
+ann.3000.self.pred <- predict(ann.3000.normal,X.mat)
 
-ann.3000.n <- neuralnetwork(X=X.mat,y=Y.mat.n,regression=T,
+
+ann.3000.normal.nest <- neuralnetwork(X=ann.3000.self.pred$predictions,y=Y.mat,regression=T,
+                                      hidden.layers = c(5),
+                                      loss.type = "squared",
+                                      activ.functions = c("relu"),
+                                      n.epochs = epochs,
+                                      standardize = T,
+                                      learn.rates = lrates,
+                                      optim.type = optype)
+
+
+
+ann.3000.extra <- neuralnetwork(X=X.mat.new,y=Y.mat,regression=T,
                           hidden.layers =net.st,
                           loss.type = "squared",
                           activ.functions = act.fn,
@@ -258,30 +258,25 @@ ann.3000.n <- neuralnetwork(X=X.mat,y=Y.mat.n,regression=T,
                           standardize = T,
                           learn.rates = lrates,
                           optim.type = optype)
-#plot(ann.3000)
-#plot(ann.3000.n)
-#with grid  0.172064
-#without grid < 0.1
 
 
 
 #lets check how our model looks likes
-ann.3000.pred <- predict(ann.3000,X.mat.valid)
+ann.3000.pred <- predict(ann.3000.normal,X.mat.valid)
+ann.3000.pred.nest <- predict(ann.3000.normal.nest,ann.3000.pred$predictions)
 ann.3000.pred.df <- as.data.frame(ann.3000.pred)
+ann.3000.pred.df.nest <- as.data.frame(ann.3000.pred.nest)
 
-#lets check how our model looks likes
-ann.3000.n.pred <- predict(ann.3000.n,X.mat.valid.s)
-ann.3000.n.pred.df <- as.data.frame(ann.3000.n.pred)
+ann.3000.pred.extra <- predict(ann.3000.extra,X.mat.valid.new)
+ann.3000.pred.df.extra <- as.data.frame(ann.3000.pred.extra)
 
 
 names(ann.3000.pred.df) <- paste("ann",names(valid.trait.df[,-c(6:8)]),sep="_")
-names(ann.3000.n.pred.df) <- names(ann.3000.pred.df) 
+names(ann.3000.pred.df.extra) <- names(ann.3000.pred.df) 
 
-summary(ann.3000.n.pred.df)
-summary(ann.3000.pred$predictions)
 
 #visual model check up
-par(mfrow=c(1,5))
+par(mfrow=c(2,5))
 model.df <- cbind(valid.trait.df[,-c(6:8)],ann.3000.pred.df)
 plot(model.df$Cab,model.df$ann_Cab)
 plot(model.df$Car,model.df$ann_Car)
@@ -290,19 +285,19 @@ plot(model.df$Cm,model.df$ann_Cm)
 plot(model.df$LAI,model.df$ann_LAI)
 
 
-ann.3000.n.pred.df$ann_Cab <- range01.inv(ann.3000.n.pred.df$ann_Cab ,param.maxmin.train[1,1]-.5,param.maxmin.train[1,2]+.5)
-ann.3000.n.pred.df$ann_Car <- range01.inv(ann.3000.n.pred.df$ann_Car ,param.maxmin.train[2,1]-.5,param.maxmin.train[2,2]+.5)
-ann.3000.n.pred.df$ann_Cw <- range01.inv(ann.3000.n.pred.df$ann_Cw ,param.maxmin.train[3,1]-.005,param.maxmin.train[3,2]+.005)
-ann.3000.n.pred.df$ann_Cm <- range01.inv(ann.3000.n.pred.df$ann_Cm ,param.maxmin.train[4,1]-.005,param.maxmin.train[4,2]+.005)
-ann.3000.n.pred.df$ann_LAI <- range01.inv(ann.3000.n.pred.df$ann_LAI ,param.maxmin.train[5,1]-.5,param.maxmin.train[5,2]+.5)
+model.extra.df <- cbind(valid.trait.df[,-c(6:8)],ann.3000.pred.df.extra)
+plot(model.extra.df$Cab,model.extra.df$ann_Cab)
+plot(model.extra.df$Car,model.extra.df$ann_Car)
+plot(model.extra.df$Cw,model.extra.df$ann_Cw)
+plot(model.extra.df$Cm,model.extra.df$ann_Cm)
+plot(model.extra.df$LAI,model.extra.df$ann_LAI)
 
-
-par(mfrow=c(1,5))
-plot(model.df$Cab,ann.3000.n.pred.df$ann_Cab)
-plot(model.df$Car,ann.3000.n.pred.df$ann_Car)
-plot(model.df$Cw,ann.3000.n.pred.df$ann_Cw)
-plot(model.df$Cm,ann.3000.n.pred.df$ann_Cm)
-plot(model.df$LAI,ann.3000.n.pred.df$ann_LAI)
+model.nested.df <- cbind(valid.trait.df[,-c(6:8)],ann.3000.pred.df.nest)
+plot(model.nested.df$Cab,model.nested.df$predictions.Cab)
+plot(model.nested.df$Car,model.nested.df$predictions.Car)
+plot(model.nested.df$Cw,model.nested.df$predictions.Cw)
+plot(model.nested.df$Cm,model.nested.df$predictions.Cm)
+plot(model.nested.df$LAI,model.nested.df$predictions.LAI)
 
 
 #final.shp <- readShapePoints(paste(dump.neon.results,"NEON_SCE_and_ANN_and_ESA_xy.shp",sep="/"))

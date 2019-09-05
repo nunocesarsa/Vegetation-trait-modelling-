@@ -459,6 +459,11 @@ library(ggplot2)
 library(ggthemes)
 library(gridExtra)
 
+out.df.3 <- read.csv(paste(dump.fld,"Optim_S2_3Param_outdata_BroadL.csv",sep="/"))
+out.df.4 <- read.csv(paste(dump.fld,"Optim_S2_4Param_outdata_BroadL.csv",sep="/"))
+out.df.5 <- read.csv(paste(dump.fld,"Optim_S2_5Param_outdata_BroadL.csv",sep="/"))
+
+
 
 cab.3.SCE <- ggplot(out.df.3, aes(x=Cab)) + 
   geom_point(aes(y = Cab), color = "black",size=1) + 
@@ -657,12 +662,6 @@ Car.5.LBF <- ggplot(out.df.5, aes(x=Car))+
 
 
 
-
-
-
-
-
-
 #saving the plots
 tiff(paste(dump.fld,"Optim_S2_5Params_BroadL.tif",sep="/"),
      units="px", width = 1024, height = 1024, res=124,
@@ -705,8 +704,42 @@ dev.off()
 
 
 
+tiff(paste(dump.fld,"Optim_S2_3Params_BroadL_horizontal.tif",sep="/"),
+     units="px", width = 2048, height = 600, res=124,
+     compression = c("lzw"))
+
+grid.arrange(cab.3.SCE, cab.3.LBF,
+             Cw.3.SCE, Cw.3.LBF,
+             LAI.3.SCE,LAI.3.LBF,
+             nrow = 1,ncol=6,
+             top="Target: 3 Parameters")
+dev.off()
+
+tiff(paste(dump.fld,"Optim_S2_4Params_BroadL_horizontal.tif",sep="/"),
+     units="px", width = 2048, height = 600, res=124,
+     compression = c("lzw"))
+
+grid.arrange(cab.4.SCE, cab.4.LBF,
+             Cw.4.SCE,  Cw.4.LBF,
+             LAI.4.SCE, LAI.4.LBF,
+             Cm.4.SCE,  Cm.4.LBF,
+             nrow = 1,ncol=8,
+             top="Target: 4 Parameters")
+dev.off()
 
 
+
+tiff(paste(dump.fld,"Optim_S2_5Params_BroadL_horizontal.tif",sep="/"),
+     units="px", width = 2048, height = 600, res=124,
+     compression = c("lzw"))
+
+grid.arrange(cab.5.SCE, Cw.5.SCE,LAI.5.SCE,Cm.5.SCE,Car.5.SCE,
+             cab.5.LBF,Cw.5.LBF,LAI.5.LBF,Cm.5.LBF, Car.5.LBF,
+
+             nrow = 2,ncol=5,
+             top="Target: 5 Parameters")
+
+dev.off()
 
 
 
