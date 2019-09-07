@@ -171,11 +171,14 @@ out.df <- cbind(df.valid[,1:5],mRF.df,ann.df)
 head(out.df)
 
 
-tiff(paste(dump.ml.fld,"S2_MacLearn_Newdata.tif",sep = "/"),
+tiff(paste(dump.ml.fld,"S2_MacLearn_Newdata_improvedplot.tif",sep = "/"),
      units="px", width = 2048, height = 1024, res=124,
      compression = c("lzw"))
 
 par(mfrow=c(2,6))
+
+line.size <- 3
+
 for (i in 1:length(names(df.valid[,1:5]))){
   print(i)
   
@@ -192,28 +195,98 @@ for (i in 1:length(names(df.valid[,1:5]))){
   plot(out.df[,i], out.df[,i],
        #xlim=c(0,1),ylim=c(0,1),
        xlab=xlab[i],ylab=ylab[i],
-       main="Random Forest",pch=19,cex=.2,col="white")
+       main="Random Forest",pch=19,cex=.8,col="white")
   
   points(out.df[,i], out.df[,i+5],
        #xlim=c(0,1),ylim=c(0,1),
        pch=19,cex=.2,col="blue3")
   
-  abline(mrf.lm,lty=2,lwd=2)
+  abline(mrf.lm,lty=2,lwd=line.size )
   #abline(ann.lm,lty=2,lwd=2,col="red4")
 
   #plots an empty background to force boundaries
   plot(out.df[,i], out.df[,i],
        #xlim=c(0,1),ylim=c(0,1),
        xlab=xlab[i],ylab=ylab[i],
-       main="Artificial neural network",pch=19,cex=.2,col="white")
+       main="Artificial neural network",pch=19,cex=.8,col="white")
   
   points(out.df[,i], out.df[,i+10],
          #xlim=c(0,1),ylim=c(0,1),
          pch=19,cex=.2,col="red4")
   
-  abline(ann.lm,lty=2,lwd=2)
+  abline(ann.lm,lty=2,lwd=line.size )
 }
 
 dev.off()
 
 
+##################horizontal plot
+
+tiff(paste(dump.ml.fld,"S2_MacLearn_Newdata_improvedplot_horizontal.tif",sep = "/"),
+     units="px", width = 2048, height = 1024, res=124,
+     compression = c("lzw"))
+
+par(mfrow=c(2,5))
+
+line.size <- 3
+
+#first plot cycle
+for (i in 1:length(names(df.valid[,1:5]))){
+  print(i)
+  
+  #i<- 1
+  #auxiliary
+  xlab <- paste("Reference",names(df.valid[,1:5]))
+  ylab <- paste("Predicted",names(df.valid[,1:5]))
+  
+  #we also add 2 lines for each regression
+  mrf.lm <- lm(out.df[,i+5]~out.df[,i])
+  #ann.lm <- lm(out.df[,i+10]~out.df[,i])
+  
+  #plots an empty background to force boundaries
+  plot(out.df[,i], out.df[,i],
+       #xlim=c(0,1),ylim=c(0,1),
+       xlab=xlab[i],ylab=ylab[i],
+       #main="Random Forest",
+       pch=19,cex=.8,col="white")
+  
+  points(out.df[,i], out.df[,i+5],
+         #xlim=c(0,1),ylim=c(0,1),
+         pch=19,cex=.2,col="blue3")
+  
+  abline(mrf.lm,lty=2,lwd=line.size )
+  #abline(ann.lm,lty=2,lwd=2,col="red4")
+  
+  
+}
+
+for (i in 1:length(names(df.valid[,1:5]))){
+  print(i)
+  
+  #i<- 1
+  #auxiliary
+  xlab <- paste("Reference",names(df.valid[,1:5]))
+  ylab <- paste("Predicted",names(df.valid[,1:5]))
+  
+  #we also add 2 lines for each regression
+  mrf.lm <- lm(out.df[,i+5]~out.df[,i])
+  ann.lm <- lm(out.df[,i+10]~out.df[,i])
+  
+  
+  #plots an empty background to force boundaries
+  plot(out.df[,i], out.df[,i],
+       #xlim=c(0,1),ylim=c(0,1),
+       xlab=xlab[i],ylab=ylab[i],
+       #main="Artificial neural network",
+       pch=19,cex=.8,col="white")
+  
+  points(out.df[,i], out.df[,i+10],
+         #xlim=c(0,1),ylim=c(0,1),
+         pch=19,cex=.2,col="red4")
+  
+  abline(ann.lm,lty=2,lwd=line.size )
+}
+
+
+
+dev.off()
